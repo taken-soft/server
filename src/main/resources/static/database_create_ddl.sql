@@ -70,11 +70,14 @@ CREATE TABLE IF NOT EXISTS "event" (
     FOREIGN KEY ("layout_widget_id") REFERENCES "layout_widget" ("layout_widget_id")
     );
 
-CREATE TABLE IF NOT EXISTS "sensor_data" (
-                                             "sensor_data_id" integer NOT NULL,
-                                             "sensor_data_value" varchar(40) NULL,
-    "sensor_data_time" timestamp NULL,
-    "sensor_id" integer NOT NULL,
-    PRIMARY KEY ("sensor_data_id"),
-    FOREIGN KEY ("sensor_id") REFERENCES "sensors" ("sensor_id")
-    );
+CREATE TABLE sensor_data
+(
+    sensor_data_id    UUID    NOT NULL,
+    sensor_data_value VARCHAR(40),
+    sensor_data_time  TIMESTAMP WITHOUT TIME ZONE,
+    sensor_id         INTEGER NOT NULL,
+    CONSTRAINT pk_sensor_data PRIMARY KEY (sensor_data_id)
+);
+
+ALTER TABLE sensor_data
+    ADD CONSTRAINT FK_SENSOR_DATA_ON_SENSOR FOREIGN KEY (sensor_id) REFERENCES sensors (sensor_id);
