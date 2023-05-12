@@ -21,6 +21,22 @@ CREATE TABLE IF NOT EXISTS "sensors" (
     FOREIGN KEY ("device_id") REFERENCES "devices" ("device_id")
     );
 
+CREATE TABLE IF NOT EXISTS "widget" (
+                                        "widget_id" integer NOT NULL,
+                                        "widget_type" varchar(40) NULL,
+    PRIMARY KEY ("widget_id")
+    );
+
+
+CREATE TABLE IF NOT EXISTS "layout" (
+                                        "layout_id" integer NOT NULL,
+                                        "layout_sequence" integer NULL,
+                                        "dashboard_id" integer NOT NULL,
+                                        PRIMARY KEY ("layout_id"),
+    FOREIGN KEY ("dashboard_id") REFERENCES "dashboard" ("dashboard_id")
+    );
+
+
 CREATE TABLE IF NOT EXISTS "layout_widget" (
                                                "layout_widget_id" integer NOT NULL,
                                                "layout_widget_start_pos" integer NULL,
@@ -35,11 +51,6 @@ CREATE TABLE IF NOT EXISTS "layout_widget" (
     FOREIGN KEY ("layout_id") REFERENCES "layout" ("layout_id")
     );
 
-CREATE TABLE IF NOT EXISTS "widget" (
-                                        "widget_id" integer NOT NULL,
-                                        "widget_type" varchar(40) NULL,
-    PRIMARY KEY ("widget_id")
-    );
 
 CREATE TABLE IF NOT EXISTS "layout_widget_sensor" (
                                                       "layout_widget_sensor_id" integer NOT NULL,
@@ -51,13 +62,6 @@ CREATE TABLE IF NOT EXISTS "layout_widget_sensor" (
     FOREIGN KEY ("sensor_id") REFERENCES "sensors" ("sensor_id")
     );
 
-CREATE TABLE IF NOT EXISTS "layout" (
-                                        "layout_id" integer NOT NULL,
-                                        "layout_sequence" integer NULL,
-                                        "dashboard_id" integer NOT NULL,
-                                        PRIMARY KEY ("layout_id"),
-    FOREIGN KEY ("dashboard_id") REFERENCES "dashboard" ("dashboard_id")
-    );
 
 CREATE TABLE IF NOT EXISTS "event" (
                                        "event" integer NOT NULL,
