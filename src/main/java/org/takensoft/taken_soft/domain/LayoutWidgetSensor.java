@@ -24,37 +24,6 @@ public class LayoutWidgetSensor {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sensor_id", nullable = false)
     private Sensor sensor;
-    
-    public Integer getId() {
-        return id;
-    }
-    
-    public void setId(Integer id) {
-        this.id = id;
-    }
-    
-    public Integer getLayoutWidgetSensorSequence() {
-        return layoutWidgetSensorSequence;
-    }
-    
-    public void setLayoutWidgetSensorSequence(Integer layoutWidgetSensorSequence) {
-        this.layoutWidgetSensorSequence = layoutWidgetSensorSequence;
-    }
-    
-    public LayoutWidget getLayoutWidget() {
-        return layoutWidget;
-    }
-    
-    public void setLayoutWidget(LayoutWidget layoutWidget) {
-        this.layoutWidget = layoutWidget;
-    }
-    
-    public Sensor getSensor() {
-        return sensor;
-    }
-    
-    public void setSensor(Sensor sensor) {
-        this.sensor = sensor;
-    }
+
     
 }
