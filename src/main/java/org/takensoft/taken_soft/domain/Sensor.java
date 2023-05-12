@@ -23,7 +23,7 @@ public class Sensor {
     @Column(name = "sensor_unit", length = 40)
     private String sensorUnit;
     
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "device_id", nullable = false)
     private Device device;
     
