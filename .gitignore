@@ -39,3 +39,4 @@ out/
 ### appliation properties ###
 *.properties
 *.properties
+src/main/resources/application-dev.properties
