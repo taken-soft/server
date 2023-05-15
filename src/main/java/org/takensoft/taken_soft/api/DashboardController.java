@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.takensoft.taken_soft.dto.CreateDashboardRequest;
-import org.takensoft.taken_soft.dto.CreateDashboardResponse;
-import org.takensoft.taken_soft.dto.UpdateDashboardRequest;
-import org.takensoft.taken_soft.dto.ResponseSingleDashboardDTO;
+import org.takensoft.taken_soft.dto.request.CreateDashboardRequest;
+import org.takensoft.taken_soft.dto.response.CreateDashboardResponse;
+import org.takensoft.taken_soft.dto.request.UpdateDashboardRequest;
+import org.takensoft.taken_soft.dto.response.SingleDashboardResponse;
 import org.takensoft.taken_soft.service.DashboardService;
 import org.takensoft.taken_soft.domain.Dashboard;
 
@@ -31,9 +31,9 @@ public class DashboardController {
 
     /** 대시보드 조회 */
     @GetMapping("/{board_id}")
-    public ResponseEntity<ResponseSingleDashboardDTO> getDashboards(@PathVariable Integer board_id) {
-        ResponseSingleDashboardDTO responseSingleDashboardDTO = dashboardService.getSingleDashboardDTO(board_id);
-        return ResponseEntity.ok(responseSingleDashboardDTO);
+    public ResponseEntity<SingleDashboardResponse> getDashboards(@PathVariable Integer board_id) {
+        SingleDashboardResponse singleDashboardResponse = dashboardService.getSingleDashboardDTO(board_id);
+        return ResponseEntity.ok(singleDashboardResponse);
     }
 
     /** 대시보드 이름 수정 */
