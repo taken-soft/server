@@ -23,3 +23,5 @@ public class LayoutDTO {
     private Integer layoutSequence;
     private List<LayoutWidgetDTO> layoutWidgetDTOList = new ArrayList<>();
 }
+
+

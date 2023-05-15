@@ -23,11 +23,11 @@ public class DashboardController {
 
 
     /** 대시보드 생성(단순 대시보드 생성) - 완료 */
-//    @PostMapping("/new")
-//    public ResponseEntity<CreateDashboardResponse> createDashboard(@RequestBody CreateDashboardRequest createDashboardRequest) {
-//        CreateDashboardResponse createDashboardResponse = dashboardService.createDashboard(createDashboardRequest);
-//        return ResponseEntity.ok(createDashboardResponse);
-//    }
+    @PostMapping("/new")
+    public ResponseEntity<CreateDashboardResponse> createDashboard(@RequestBody CreateDashboardRequest createDashboardRequest) {
+        CreateDashboardResponse createDashboardResponse = dashboardService.createDashboard(createDashboardRequest);
+        return ResponseEntity.ok(createDashboardResponse);
+    }
 
     /** 대시보드 조회 */
     @GetMapping("/{board_id}")

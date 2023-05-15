@@ -2,15 +2,13 @@ package org.takensoft.taken_soft.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.takensoft.taken_soft.dto.CreateDashboardRequest;
-import org.takensoft.taken_soft.dto.CreateDashboardResponse;
-import org.takensoft.taken_soft.dto.UpdateDashboardRequest;
-import org.takensoft.taken_soft.dto.ResponseSingleDashboardDTO;
+import org.takensoft.taken_soft.dto.*;
 import org.takensoft.taken_soft.domain.Dashboard;
 import org.takensoft.taken_soft.domain.Layout;
 import org.takensoft.taken_soft.repository.DashBoardRepository;
 import org.takensoft.taken_soft.repository.LayoutRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,43 +22,49 @@ public class DashboardService {
     private LayoutRepository layoutRepository;
 
     /** 초기 대시보드 및 레이아웃 생성 */
-//    public CreateDashboardResponse createDashboard(CreateDashboardRequest createDashboardRequest) {
-//        /* createDashboardRequest 를 잘 분해하여 데이터베이스에 저장해주는 로직 작성 필요 */
-//        // 대시보드 타입
-//        String dashboardType = createDashboardRequest.getDashboardType();
-//        // 대시보드 순서
-//        Integer dashboardSequence = createDashboardRequest.getDashboardSequence();
-//        // 새로운 대시보드 생성
-//        Dashboard newDashboard = Dashboard.builder()
-//                .dashboardTitle("New Dashboard")
-//                .dashboardType(dashboardType)
-//                .dashboardSequence(dashboardSequence)
-//                .build();
-//        // 대시보드 저장
-//        dashBoardRepository.save(newDashboard);
-//
-//        // 레이아웃 생성
-//        int numLayouts;
-//        if (dashboardType.equals("2X2")) {
-//            numLayouts = 4;
-//        } else if (dashboardType.equals("2X4")) {
-//            numLayouts = 8;
-//        }
-//        // 레이아웃 저장
-//        for (int i = 1; i <= numLayouts; i++) {
-//            Layout newLayout = new Layout();
-//            newLayout.setLayoutSequence(i);
-//            newLayout.setDashboard(newDashboard);
-//            layoutRepository.save(newLayout);
-//        }
-//
-//        // CreateDashboardResponse 반환
-//        CreateDashboardResponse CDR = new CreateDashboardResponse();
-//        CDR.setDashboardId(newDashboard.getId());
-//        /** How ? */
-//        CDR.setLayoutDTOs();
-//        return CDR;
-//    }
+    public CreateDashboardResponse createDashboard(CreateDashboardRequest createDashboardRequest) {
+        /* createDashboardRequest 를 잘 분해하여 데이터베이스에 저장해주는 로직 작성 필요 */
+        // 대시보드 타입
+        String dashboardType = createDashboardRequest.getDashboardType();
+        // 대시보드 순서
+        Integer dashboardSequence = createDashboardRequest.getDashboardSequence();
+        // 새로운 대시보드 생성
+        Dashboard newDashboard = Dashboard.builder()
+                .dashboardTitle("New Dashboard")
+                .dashboardType(dashboardType)
+                .dashboardSequence(dashboardSequence)
+                .build();
+        // 대시보드 저장
+        dashBoardRepository.save(newDashboard);
+
+        // 레이아웃 생성
+        int numLayouts=0;
+
+        if (dashboardType.equals("2X2")) {
+            numLayouts = 4;
+        } else if (dashboardType.equals("2X4")) {
+            numLayouts = 8;
+        }
+        // 레이아웃 저장 및 LayoutDTO 저장
+        List<LayoutDTO> layoutDTOList = new ArrayList<>();
+        for (int i = 1; i <= numLayouts; i++) {
+            Layout newLayout = new Layout();
+            newLayout.setLayoutSequence(i);
+            newLayout.setDashboard(newDashboard);
+
+            LayoutDTO newLayoutDTO = new LayoutDTO();
+            newLayoutDTO.setId(newLayout.getId());
+            newLayoutDTO.setLayoutSequence(newLayout.getLayoutSequence());
+            layoutDTOList.add(newLayoutDTO);
+            layoutRepository.save(newLayout);
+        }
+
+        // CreateDashboardResponse 반환
+        CreateDashboardResponse CDR = new CreateDashboardResponse();
+        CDR.setDashboardId(newDashboard.getId());
+        CDR.setLayoutDTOs(layoutDTOList);
+        return CDR;
+    }
 
     /** 싱글 대시보드 반환 */
     public ResponseSingleDashboardDTO getSingleDashboardDTO(Integer board_id){
