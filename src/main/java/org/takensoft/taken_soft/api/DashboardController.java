@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.takensoft.taken_soft.dto.CreateDashboardRequest;
+import org.takensoft.taken_soft.dto.CreateDashboardResponse;
 import org.takensoft.taken_soft.dto.UpdateDashboardRequest;
 import org.takensoft.taken_soft.dto.ResponseSingleDashboardDTO;
 import org.takensoft.taken_soft.service.DashboardService;
@@ -24,9 +25,8 @@ public class DashboardController {
     /** 대시보드 생성(단순 대시보드 생성) - 완료 */
     @PostMapping("/new")
     public ResponseEntity<Dashboard> createDashboard(@RequestBody CreateDashboardRequest createDashboardRequest) {
-        /* 클라이언트 쪽에서 DashboardCreateDTO를 보내줌 이를 통해 생성 */
-        Dashboard createdDashboard = dashboardService.createDashboard(createDashboardRequest);
-        return ResponseEntity.ok(createdDashboard);
+        CreateDashboardResponse createDashboardResponse = dashboardService.createDashboard(createDashboardRequest);
+        return ResponseEntity.ok(createDashboardResponse);
     }
 
     /** 대시보드 조회 */

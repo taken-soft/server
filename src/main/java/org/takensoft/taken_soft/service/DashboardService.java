@@ -21,7 +21,7 @@ public class DashboardService {
      * 대시보드 생성
      */
     public Dashboard createDashboard(CreateDashboardRequest createDashboardRequest) {
-        /* dashboardSaveDTO를 잘 분해하여 데이터베이스에 저장해주는 로직 작성 필요 */
+        /* createDashboardRequest 를 잘 분해하여 데이터베이스에 저장해주는 로직 작성 필요 */
 
 
         // 샘플 (생성된 대시보드를 리턴해줄 것. 코드 오류 안나라고 넣어둠)
