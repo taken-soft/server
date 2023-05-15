@@ -13,5 +13,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseSingleDashboardDTO {
-    /** 작성 필요 */
+    private Integer id;
+    private String dashboardTitle;
+    private String dashboardType;
+    private Integer dashboardSequence;
+    /** 수정 필요 - 매우 중요 */
 }
