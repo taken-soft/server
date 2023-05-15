@@ -66,13 +66,13 @@ public class DashboardService {
     }
 
     /** 싱글 대시보드 반환 */
-    public ResponseSingleDashboardDto getSingleDashboardDTO(Integer board_id){
+    public SingleDashboardResponse getSingleDashboardDTO(Integer board_id){
         /* DB에서 해당 대시보드 가져옴 */
         Dashboard dashboard = dashBoardRepository.findById(board_id).orElseThrow();
         /* 대시보드 -> 레이아웃 -> 레이아웃 위젯 -> 이벤트, 레이아웃_위젯_센서를 찾아 이를 전부 하나의 반환 DTO로 만들고 이를 반환해주는 로직 작성 필요 */
 
         // 샘플 (코드 오류 안나라고 넣어둠)
-        ResponseSingleDashboardDto singleDashboardDTO = ResponseSingleDashboardDto.builder().build();
+        SingleDashboardResponse singleDashboardDTO = SingleDashboardResponse.builder().build();
 
 
 
