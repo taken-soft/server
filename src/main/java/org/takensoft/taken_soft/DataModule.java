@@ -23,10 +23,7 @@ import java.util.Set;
 @Component
 @Slf4j
 public class DataModule {
-    
-    @PersistenceContext
-    private EntityManager entityManager;
-    
+
     @Autowired
     private DeviceRepository deviceRepository;
     
@@ -36,7 +33,7 @@ public class DataModule {
     @Autowired
     private SensorRepository sensorRepository;
     
-    @Scheduled(fixedDelay = 1000)
+    @Scheduled(fixedDelay = 10000000)
     @Transactional
     public void addData() {
         List<Device> devices = deviceRepository.findAll();

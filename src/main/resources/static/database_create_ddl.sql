@@ -64,13 +64,13 @@ CREATE TABLE IF NOT EXISTS "layout_widget_sensor" (
 
 
 CREATE TABLE IF NOT EXISTS "event" (
-                                       "event" integer NOT NULL,
+                                       "event_id" integer NOT NULL,
                                        "event_over" integer NULL,
                                        "event_under" integer NULL,
                                        "event_color" varchar(40) NULL,
     "event_type" varchar(40) NULL,
     "layout_widget_id" integer NOT NULL,
-    PRIMARY KEY ("event"),
+    PRIMARY KEY ("event_id"),
     FOREIGN KEY ("layout_widget_id") REFERENCES "layout_widget" ("layout_widget_id")
     );
 
