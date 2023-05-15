@@ -1,4 +1,4 @@
-package org.takensoft.taken_soft.dto;
+package org.takensoft.taken_soft.dto.request;
 
 
 import lombok.AllArgsConstructor;

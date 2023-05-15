@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.takensoft.taken_soft.dto.CreateDashboardRequest;
-import org.takensoft.taken_soft.dto.CreateDashboardResponse;
-import org.takensoft.taken_soft.dto.UpdateDashboardRequest;
-import org.takensoft.taken_soft.dto.SingleDashboardResponse;
+import org.takensoft.taken_soft.dto.request.CreateDashboardRequest;
+import org.takensoft.taken_soft.dto.response.CreateDashboardResponse;
+import org.takensoft.taken_soft.dto.request.UpdateDashboardRequest;
+import org.takensoft.taken_soft.dto.response.SingleDashboardResponse;
 import org.takensoft.taken_soft.service.DashboardService;
 import org.takensoft.taken_soft.domain.Dashboard;
 

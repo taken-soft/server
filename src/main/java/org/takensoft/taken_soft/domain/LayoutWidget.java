@@ -1,16 +1,13 @@
 package org.takensoft.taken_soft.domain;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
-import org.takensoft.taken_soft.dto.LayoutWidgetProperty;
+import org.takensoft.taken_soft.dto.property.LayoutWidgetProperty;
 
 import java.io.Serializable;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import org.hibernate.annotations.TypeDef;

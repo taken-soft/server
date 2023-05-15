@@ -1,9 +1,10 @@
-package org.takensoft.taken_soft.dto;
+package org.takensoft.taken_soft.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.takensoft.taken_soft.dto.LayoutDto;
 
 import java.util.List;
 

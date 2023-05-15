@@ -5,6 +5,10 @@ import org.springframework.stereotype.Service;
 import org.takensoft.taken_soft.dto.*;
 import org.takensoft.taken_soft.domain.Dashboard;
 import org.takensoft.taken_soft.domain.Layout;
+import org.takensoft.taken_soft.dto.request.CreateDashboardRequest;
+import org.takensoft.taken_soft.dto.request.UpdateDashboardRequest;
+import org.takensoft.taken_soft.dto.response.CreateDashboardResponse;
+import org.takensoft.taken_soft.dto.response.SingleDashboardResponse;
 import org.takensoft.taken_soft.repository.DashBoardRepository;
 import org.takensoft.taken_soft.repository.LayoutRepository;
 

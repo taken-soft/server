@@ -13,6 +13,5 @@ import lombok.NoArgsConstructor;
 public class LayoutWidgetSensorDto {
     private Integer id;
     private Integer layoutWidgetSensorSequence;
-
     private SensorDto sensorDTO;
 }
