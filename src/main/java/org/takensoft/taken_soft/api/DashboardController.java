@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.takensoft.taken_soft.dto.CreateDashboardRequest;
 import org.takensoft.taken_soft.dto.CreateDashboardResponse;
 import org.takensoft.taken_soft.dto.UpdateDashboardRequest;
-import org.takensoft.taken_soft.dto.ResponseSingleDashboardDTO;
+import org.takensoft.taken_soft.dto.ResponseSingleDashboardDto;
 import org.takensoft.taken_soft.service.DashboardService;
 import org.takensoft.taken_soft.domain.Dashboard;
 
@@ -31,8 +31,8 @@ public class DashboardController {
 
     /** 대시보드 조회 */
     @GetMapping("/{board_id}")
-    public ResponseEntity<ResponseSingleDashboardDTO> getDashboards(@PathVariable Integer board_id) {
-        ResponseSingleDashboardDTO responseSingleDashboardDTO = dashboardService.getSingleDashboardDTO(board_id);
+    public ResponseEntity<ResponseSingleDashboardDto> getDashboards(@PathVariable Integer board_id) {
+        ResponseSingleDashboardDto responseSingleDashboardDTO = dashboardService.getSingleDashboardDTO(board_id);
         return ResponseEntity.ok(responseSingleDashboardDTO);
     }
 

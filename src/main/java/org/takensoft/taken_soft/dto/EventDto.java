@@ -1,22 +1,24 @@
 package org.takensoft.taken_soft.dto;
 
-
-import jakarta.persistence.*;
+import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.takensoft.taken_soft.domain.Device;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SensorDTO {
+public class EventDto {
+    @Nullable
     private Integer id;
-    private String sensorName;
-    private String sensorUnit;
+    private Integer eventOver;
+    private Integer eventUnder;
+    private String eventColor;
+    private String eventType;
 }
+
 
 
 

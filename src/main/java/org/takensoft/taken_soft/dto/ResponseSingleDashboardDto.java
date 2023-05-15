@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseSingleDashboardDTO {
+public class ResponseSingleDashboardDto {
     private Integer id;
     private String dashboardTitle;
     private String dashboardType;
