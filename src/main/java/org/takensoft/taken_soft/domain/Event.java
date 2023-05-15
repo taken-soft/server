@@ -11,7 +11,7 @@ import lombok.Setter;
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "event", nullable = false)
+    @Column(name = "event_id", nullable = false)
     private Integer id;
     
     @Column(name = "event_over")
