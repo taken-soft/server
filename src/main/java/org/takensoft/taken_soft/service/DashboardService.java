@@ -22,10 +22,12 @@ public class DashboardService {
      */
     public Dashboard createDashboard(CreateDashboardRequest createDashboardRequest) {
         /* createDashboardRequest 를 잘 분해하여 데이터베이스에 저장해주는 로직 작성 필요 */
-
-
-        // 샘플 (생성된 대시보드를 리턴해줄 것. 코드 오류 안나라고 넣어둠)
-        return new Dashboard();
+        // 대시보드 타입
+        String DashboardType = createDashboardRequest.getDashboardType();
+        // 대시보드 순서
+        Integer DashboardSequence = createDashboardRequest.getDashboardSequence();
+        // 새로운 대시보드 및 레이아웃 생성
+        dashBoardRepository.
     }
 
     /** 싱글 대시보드 반환 */
