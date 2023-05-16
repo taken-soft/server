@@ -15,7 +15,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LayoutWidgetDto {
-    @Nullable
     private Integer id;
     private Integer layoutWidgetStartPos;
     private Integer layoutWidgetEndPos;

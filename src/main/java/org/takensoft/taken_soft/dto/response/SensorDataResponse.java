@@ -14,5 +14,7 @@ import java.util.List;
  */
 @Data
 public class SensorDataResponse {
+
+    // 여러개의 (센서와 그에 대한 센서데이터들) 에 대한 최종 반환.
     private List<RealtimeSensorData> realtimeSensorDataList=new ArrayList<>();
 }

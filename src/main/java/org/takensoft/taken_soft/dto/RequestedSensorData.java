@@ -10,6 +10,6 @@ import lombok.Data;
  */
 @Data
 public class RequestedSensorData {
-    private String sensorId;
+    private Integer sensorId;
     private boolean isGraph;
 }

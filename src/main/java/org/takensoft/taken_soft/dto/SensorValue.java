@@ -2,6 +2,8 @@ package org.takensoft.taken_soft.dto;
 
 import lombok.Data;
 
+import java.time.ZonedDateTime;
+
 /**
  * package :  org.takensoft.taken_soft.dto
  * fileName : SensorValue
@@ -10,6 +12,6 @@ import lombok.Data;
  */
 @Data
 public class SensorValue {
-    private String time;
+    private ZonedDateTime time;
     private String value;
 }

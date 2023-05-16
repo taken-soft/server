@@ -43,7 +43,7 @@ public class DashboardController {
         return ResponseEntity.ok(updatedDashboard);
     }
 
-    /** 대시보드 수정(저장) - 완료 */
+    /** 대시보드 수정(저장) */
     @PostMapping("/{board_id}")
     public ResponseEntity<Dashboard> updateDashboard(@PathVariable Integer board_id, @RequestBody UpdateDashboardRequest updateDashboardRequest) {
         Dashboard updatedDashboard = dashboardService.updateDashboard(board_id, updateDashboardRequest);
