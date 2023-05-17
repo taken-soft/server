@@ -6,6 +6,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ *  대시보드를 새로 생성할 때 요청 객체
+ *
+ */
 @Data
 @Builder
 @NoArgsConstructor

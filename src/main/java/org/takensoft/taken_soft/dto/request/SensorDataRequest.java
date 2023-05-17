@@ -6,11 +6,10 @@ import org.takensoft.taken_soft.dto.RequestedSensorData;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * package :  org.takensoft.taken_soft.dto
- * fileName : SensorDataRequest
- * author :  ShinYeaChan
- * date : 2023-05-15
+ *  요청할 센서데이터들을 받을 요청 객체
+ *
  */
 @Data
 public class SensorDataRequest {
