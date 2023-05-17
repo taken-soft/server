@@ -44,7 +44,14 @@ public class DashboardController {
         return ResponseEntity.ok(singleDashboardResponse);
     }
 
-    /** 대시보드 수정(저장) - 완료 */
+    /** 대시보드 이름 수정 */
+    @PostMapping("/name/{board_id}")
+    public ResponseEntity<Dashboard> updateDashboardName(@PathVariable Integer board_id, @RequestBody Dashboard dashboard) {
+        Dashboard updatedDashboard = dashboardService.updateDashboardName(board_id, dashboard.getDashboardTitle());
+        return ResponseEntity.ok(updatedDashboard);
+    }
+
+    /** 대시보드 수정(저장) */
     @PostMapping("/{board_id}")
     public ResponseEntity<?> updateDashboard(@PathVariable Integer board_id, @RequestBody UpdateDashboardRequest updateDashboardRequest) {
         SingleDashboardResponse res = dashboardService.updateDashboard(board_id, updateDashboardRequest);

@@ -15,7 +15,6 @@ import org.takensoft.taken_soft.repository.SensorDataRepository;
 import org.takensoft.taken_soft.repository.SensorRepository;
 
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -33,7 +32,7 @@ public class DataModule {
     
     @Autowired
     private SensorRepository sensorRepository;
-    
+
     @Scheduled(fixedDelay = 1000)
     @Transactional
     public void addData() {
@@ -57,8 +56,8 @@ public class DataModule {
         SensorData sensorData = new SensorData();
         sensorData.setSensor(sensor);
         sensorData.setSensorDataValue(String.valueOf(Math.random() * 100 + 1));
-        sensorData.setSensorDataTime(ZonedDateTime.now());
-        SensorData save = sensorDataRepository.save(sensorData);
-        log.info("저장된 데이터: {}",save.getSensorDataValue());
+        ZonedDateTime now = ZonedDateTime.now().withNano(0);
+        sensorData.setSensorDataTime(now);
+        sensorDataRepository.save(sensorData);
     }
 }
