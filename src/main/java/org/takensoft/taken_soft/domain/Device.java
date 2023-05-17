@@ -13,7 +13,7 @@ import java.util.Set;
 @Setter
 public class Device {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "device_id", nullable = false)
     private Integer id;
     

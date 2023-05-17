@@ -32,20 +32,20 @@ public class DashboardService {
         // 대시보드 순서
         Integer dashboardSequence = createDashboardRequest.getDashboardSequence();
         // 새로운 대시보드 생성
-        Dashboard newDashboard = Dashboard.builder()
-                .dashboardTitle("New Dashboard")
-                .dashboardType(dashboardType)
-                .dashboardSequence(dashboardSequence)
-                .build();
+        Dashboard newDashboard = new Dashboard();
+        newDashboard.setDashboardTitle("New Dashboard");
+        newDashboard.setDashboardType(dashboardType);
+        newDashboard.setDashboardSequence(dashboardSequence);
+
         // 대시보드 저장
         dashBoardRepository.save(newDashboard);
 
         // 레이아웃 생성
         int numLayouts=0;
 
-        if (dashboardType.equals("2X2")) {
+        if (dashboardType.equals("2x2")) {
             numLayouts = 4;
-        } else if (dashboardType.equals("2X4")) {
+        } else if (dashboardType.equals("2x4")) {
             numLayouts = 8;
         }
         // 레이아웃 저장 및 LayoutDTO 저장
@@ -54,12 +54,13 @@ public class DashboardService {
             Layout newLayout = new Layout();
             newLayout.setLayoutSequence(i);
             newLayout.setDashboard(newDashboard);
+            layoutRepository.save(newLayout);
 
             LayoutDto newLayoutDto = new LayoutDto();
             newLayoutDto.setId(newLayout.getId());
             newLayoutDto.setLayoutSequence(newLayout.getLayoutSequence());
             layoutDtoList.add(newLayoutDto);
-            layoutRepository.save(newLayout);
+
         }
 
         // CreateDashboardResponse 반환
