@@ -1,5 +1,6 @@
 package org.takensoft.taken_soft.domain;
 
+//import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLHStoreType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,27 +14,24 @@ import java.util.Set;
 @Table(name = "layout_widget")
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class LayoutWidget implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "layout_widget_id", nullable = false)
     private Integer id;
-    
+
     @Column(name = "layout_widget_start_pos")
     private Integer layoutWidgetStartPos;
-    
+
     @Column(name = "layout_widget_end_pos")
     private Integer layoutWidgetEndPos;
-    
+
     @Column(name = "layout_widget_z_pos")
     private Integer layoutWidgetZPos;
     
     @Column(name = "layout_widget_color", length = 40)
     private String layoutWidgetColor;
-    
+
     @Type(PostgreSQLHStoreType.class)
     @Column(name = "layout_widget_property", length = Integer.MAX_VALUE, columnDefinition = "jsonb")
     private LayoutWidgetProperty layoutWidgetProperty;

@@ -12,7 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 public class LayoutWidgetSensor {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "layout_widget_sensor_id", nullable = false)
     private Integer id;
     

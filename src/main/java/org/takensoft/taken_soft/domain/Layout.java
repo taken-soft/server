@@ -13,7 +13,7 @@ import java.util.Set;
 @Setter
 public class Layout {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "layout_id", nullable = false)
     private Integer id;
     

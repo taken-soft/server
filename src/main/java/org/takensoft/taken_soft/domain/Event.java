@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 public class Event {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "event_id", nullable = false)
     private Integer id;
     
