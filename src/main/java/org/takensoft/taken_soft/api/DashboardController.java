@@ -29,25 +29,26 @@ public class DashboardController {
         return ResponseEntity.ok(createDashboardResponse);
     }
 
-    /** 대시보드 조회 */
+    
+    /**
+     * 대시보드 렌더링 요청
+     *
+     * @param board_id board_id
+     * @return {@link ResponseEntity}
+     * @see ResponseEntity
+     * @see SingleDashboardResponse
+     */
     @GetMapping("/{board_id}")
     public ResponseEntity<SingleDashboardResponse> getDashboards(@PathVariable Integer board_id) {
         SingleDashboardResponse singleDashboardResponse = dashboardService.getSingleDashboardDTO(board_id);
         return ResponseEntity.ok(singleDashboardResponse);
     }
 
-    /** 대시보드 이름 수정 */
-    @PostMapping("/name/{board_id}")
-    public ResponseEntity<Dashboard> updateDashboardName(@PathVariable Integer board_id, @RequestBody Dashboard dashboard) {
-        Dashboard updatedDashboard = dashboardService.updateDashboardName(board_id, dashboard.getDashboardTitle());
-        return ResponseEntity.ok(updatedDashboard);
-    }
-
     /** 대시보드 수정(저장) - 완료 */
     @PostMapping("/{board_id}")
-    public ResponseEntity<Dashboard> updateDashboard(@PathVariable Integer board_id, @RequestBody UpdateDashboardRequest updateDashboardRequest) {
-        Dashboard updatedDashboard = dashboardService.updateDashboard(board_id, updateDashboardRequest);
-        return ResponseEntity.ok(updatedDashboard);
+    public ResponseEntity<?> updateDashboard(@PathVariable Integer board_id, @RequestBody UpdateDashboardRequest updateDashboardRequest) {
+        SingleDashboardResponse res = dashboardService.updateDashboard(board_id, updateDashboardRequest);
+        return ResponseEntity.ok(res);
     }
 
     /** 대시보드 삭제 */

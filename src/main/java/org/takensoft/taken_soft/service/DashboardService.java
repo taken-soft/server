@@ -93,13 +93,17 @@ public class DashboardService {
     }
 
     /** 대시보드 (값, 위젯 등) 업데이트 */
-    public Dashboard updateDashboard(Integer board_id, UpdateDashboardRequest updateDashboardRequest)
+    public SingleDashboardResponse updateDashboard(Integer board_id, UpdateDashboardRequest updateDashboardRequest)
     {
-        Dashboard dashboard = dashBoardRepository.findById(board_id).orElseThrow();
+        Dashboard dashboard = dashBoardRepository.findById(board_id).orElse(null);
+        
         /* dashboardSaveDTO 안의 값을 이용해서 기존 dashboard의 값을 업데이트하는 로직 작성 필요 */
+        SingleDashboardResponse res= new SingleDashboardResponse().builder()
+                .dashboardTitle(updateDashboardRequest.getDashboardTitle())
+                .layoutList(updateDashboardRequest.getLayoutDtoList()).build();
 
         // 샘플 ( 오류 안나라고...)
-        return new Dashboard();
+        return res;
     }
 
 
