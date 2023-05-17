@@ -15,7 +15,7 @@ import java.util.Set;
 @AllArgsConstructor // 모든 필드 값을 파라미터로 받는 생성자를 만듦
 public class Dashboard {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "dashboard_id", nullable = false)
     private Integer id;
     
