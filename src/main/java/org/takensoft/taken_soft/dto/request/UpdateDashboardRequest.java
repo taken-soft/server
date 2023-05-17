@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.takensoft.taken_soft.dto.LayoutDto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -15,5 +16,5 @@ import java.util.List;
 public class UpdateDashboardRequest {
     private Integer id;
     private String dashboardTitle;
-    private List<LayoutDto> layoutDtoList;
+    private List<LayoutDto> layoutDtoList=new ArrayList<>();
 }

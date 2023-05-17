@@ -1,21 +1,21 @@
 package org.takensoft.taken_soft.domain;
 
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import com.vladmihalcea.hibernate.type.basic.PostgreSQLHStoreType;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Type;
 import org.takensoft.taken_soft.dto.property.LayoutWidgetProperty;
 
 import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import org.hibernate.annotations.TypeDef;
 @Entity
 @Table(name = "layout_widget")
 @Getter
 @Setter
-@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class LayoutWidget implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +34,7 @@ public class LayoutWidget implements Serializable {
     @Column(name = "layout_widget_color", length = 40)
     private String layoutWidgetColor;
     
-    @Type(type = "jsonb")
+    @Type(PostgreSQLHStoreType.class)
     @Column(name = "layout_widget_property", length = Integer.MAX_VALUE, columnDefinition = "jsonb")
     private LayoutWidgetProperty layoutWidgetProperty;
     

@@ -1,13 +1,15 @@
 package org.takensoft.taken_soft.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "layout_widget_sensor")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class LayoutWidgetSensor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
