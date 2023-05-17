@@ -13,6 +13,8 @@ import java.util.List;
  */
 @Data
 public class RealtimeSensorData {
-    private String sensorId;
-    private List<SensorValue> values=new ArrayList<>();
+    // 센서 아이디
+    private Integer sensorId;
+    // 센서 아이디에 해당하는 값 (그래프의 경우 5개의 값-시간 Value를 가질 수 있음)
+    private List<SensorValue> SensorValues=new ArrayList<>();
 }

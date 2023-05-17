@@ -10,6 +10,8 @@ import lombok.Data;
  */
 @Data
 public class RequestedSensorData {
-    private String sensorId;
-    private boolean isGraph;
+    private Integer sensorId;
+
+    // 그래프 getter와 변수명이 일치하여 충돌발생. 따라서 graph로 수정함.
+    private boolean graph;
 }

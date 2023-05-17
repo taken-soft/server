@@ -26,14 +26,14 @@ public class DataModule {
 
     @Autowired
     private DeviceRepository deviceRepository;
-    
+
     @Autowired
     private SensorDataRepository sensorDataRepository;
-    
+
     @Autowired
     private SensorRepository sensorRepository;
-    
-    @Scheduled(fixedDelay = 10000000)
+
+    @Scheduled(fixedDelay = 1000)
     @Transactional
     public void addData() {
         List<Device> devices = deviceRepository.findAll();
@@ -42,7 +42,7 @@ public class DataModule {
             setAllSensorData(device);
         }
     }
-    
+
     private void setAllSensorData(Device device) {
         Set<Sensor> sensors = sensorRepository.findByDevice_Id(device.getId());
         for (Sensor sensor : sensors) {
@@ -51,12 +51,13 @@ public class DataModule {
             saveSensorData(sensor);
         }
     }
-    
+
     private void saveSensorData(Sensor sensor) {
         SensorData sensorData = new SensorData();
         sensorData.setSensor(sensor);
         sensorData.setSensorDataValue(String.valueOf(Math.random() * 100 + 1));
-        sensorData.setSensorDataTime(ZonedDateTime.now());
+        ZonedDateTime now = ZonedDateTime.now().withNano(0);
+        sensorData.setSensorDataTime(now);
         sensorDataRepository.save(sensorData);
     }
 }
