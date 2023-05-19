@@ -1,20 +1,25 @@
 package org.takensoft.taken_soft.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.takensoft.taken_soft.domain.*;
 import org.takensoft.taken_soft.dto.*;
-import org.takensoft.taken_soft.domain.Dashboard;
-import org.takensoft.taken_soft.domain.Layout;
+import org.takensoft.taken_soft.dto.property.LayoutWidgetProperty;
 import org.takensoft.taken_soft.dto.request.CreateDashboardRequest;
 import org.takensoft.taken_soft.dto.request.UpdateDashboardRequest;
 import org.takensoft.taken_soft.dto.response.CreateDashboardResponse;
 import org.takensoft.taken_soft.dto.response.SingleDashboardResponse;
-import org.takensoft.taken_soft.repository.DashBoardRepository;
-import org.takensoft.taken_soft.repository.LayoutRepository;
+import org.takensoft.taken_soft.repository.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 
+@Slf4j
 @Service
 public class DashboardService {
 
@@ -23,6 +28,9 @@ public class DashboardService {
 
     @Autowired
     private LayoutRepository layoutRepository;
+
+
+
 
     /** 초기 대시보드 및 레이아웃 생성 */
     public CreateDashboardResponse createDashboard(CreateDashboardRequest createDashboardRequest) {
@@ -103,13 +111,25 @@ public class DashboardService {
         return new Dashboard();
     }
 
-
-    /** 대시보드 삭제 */
-    public void deleteDashboard(Integer board_id)
-    {
-        /* 이거 이렇게만 두면 연관관계 때문에 삭제 안됨. 장치/센서/센서 데이터 빼고는 CASCADE 되도록 해야함 */
-        dashBoardRepository.deleteById(board_id);
+    /** 대시보드 삭제 - 완료 */
+    public void deleteDashboard(Integer dashboardId) {
+        dashBoardRepository.deleteById(dashboardId);
     }
+
+
+    /** 대시보드와 관련된 layout ~ event 까지 삭제 - 대시보드는 삭제되지 않음 */
+    public void deleteLayoutsByDashboardId(Integer dashboardId) {
+        Dashboard dashboard = dashBoardRepository.findById(dashboardId).orElseThrow();
+        Set<Layout> layouts = dashboard.getLayouts();
+
+        for (Layout layout : layouts) {
+            Integer layout_id = layout.getId();
+            log.info("레이아웃 아이디 : {}", layout_id);
+            layoutRepository.deleteById(layout_id); // 레이아웃 삭제 (cascade에 의해 연관된 엔티티들도 자동으로 삭제됨)
+        }
+        layoutRepository.flush(); // 영속성 컨텍스트를 플러시하여 변경 사항을 데이터베이스에 즉시 반영
+    }
+
 
     public List<Dashboard> getAllDashboards()
     {

@@ -70,6 +70,12 @@ public class DashboardController {
         return ResponseEntity.ok().build();
     }
 
+    /** 대시보드 제외 삭제 테스트 URI */
+    @GetMapping("del/{board_id}")
+    public ResponseEntity<Void> dontDeleteDashboard(@PathVariable("board_id") Integer board_id) {
+        dashboardService.deleteLayoutsByDashboardId(board_id);
+        return ResponseEntity.ok().build();
+    }
     /**
      * 대시보드 전체 리스트 명 조회
      */

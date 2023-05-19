@@ -16,14 +16,12 @@ public class LayoutWidgetSensor {
     
     @Column(name = "layout_widget_sensor_sequence")
     private Integer layoutWidgetSensorSequence;
-    
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "layout_widget_id", nullable = false)
     private LayoutWidget layoutWidget;
-    
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sensor_id", nullable = false)
     private Sensor sensor;
-
-    
 }

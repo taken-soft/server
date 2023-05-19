@@ -1,6 +1,9 @@
 package org.takensoft.taken_soft.domain;
 
 //import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLHStoreType;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -9,8 +12,11 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 import org.takensoft.taken_soft.dto.property.LayoutWidgetProperty;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 //import org.hibernate.annotations.TypeDef;
 @Entity
@@ -35,9 +41,9 @@ public class LayoutWidget implements Serializable {
     @Column(name = "layout_widget_color", length = 40)
     private String layoutWidgetColor;
 
-    @Type(PostgreSQLHStoreType.class)
-    @Column(name = "layout_widget_property", length = Integer.MAX_VALUE, columnDefinition = "jsonb")
-    private LayoutWidgetProperty layoutWidgetProperty;
+
+    @Column(name = "layout_widget_property")
+    private String layoutWidgetProperty;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "widget_id", nullable = false)
@@ -47,9 +53,10 @@ public class LayoutWidget implements Serializable {
     @JoinColumn(name = "layout_id",nullable = false)
     private Layout layout;
 
-    @OneToMany(mappedBy = "layoutWidget")
+    @OneToMany(mappedBy = "layoutWidget", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<LayoutWidgetSensor> layoutWidgetSensors = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "layoutWidget")
-    private Set<Event> events=new LinkedHashSet<>();
+    @OneToMany(mappedBy = "layoutWidget", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Event> events = new LinkedHashSet<>();
+
 }
