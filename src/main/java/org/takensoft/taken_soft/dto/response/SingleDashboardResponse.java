@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.takensoft.taken_soft.domain.Dashboard;
 import org.takensoft.taken_soft.domain.Layout;
 import org.takensoft.taken_soft.dto.LayoutDto;
 
@@ -19,17 +20,15 @@ import java.util.Set;
  *
  */
 @Data
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(staticName = "of")
 public class SingleDashboardResponse {
     private Integer id;
     private String dashboardTitle;
     private String dashboardType;
     private Integer dashboardSequence;
     private List<LayoutDto> layoutList=new ArrayList<>();
-    /** 수정 필요 - 매우 중요 */
-    public static SingleDashboardResponse create(Integer id,String dashboardTitle,String dashboardType,Integer dashboardSequence,List<LayoutDto> layoutList){
-       return new SingleDashboardResponse(id,dashboardTitle,dashboardType,dashboardSequence,layoutList);
+    public SingleDashboardResponse(Dashboard dashboard,List<LayoutDto> layoutDtoList){
+        SingleDashboardResponse.of(dashboard.getId(),dashboard.getDashboardTitle(),dashboard.getDashboardType(),dashboard.getDashboardSequence(),layoutDtoList);
     }
 }
