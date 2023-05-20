@@ -21,7 +21,7 @@ public class LayoutWidgetDto {
     private Integer layoutWidgetEndPos;
     private Integer layoutWidgetZPos;
     private String layoutWidgetColor;
-    private LayoutWidgetProperty layoutWidgetProperty;
+    private String layoutWidgetProperty;
 
     private List<EventDto> eventDtoList;
     private List<LayoutWidgetSensorDto> layoutWidgetSensorDtoList;
