@@ -27,7 +27,8 @@ public class Dashboard {
     
     @Column(name = "dashboard_sequence")
     private Integer dashboardSequence;
-    
-    @OneToMany(mappedBy = "dashboard")
+
+    @OneToMany(mappedBy = "dashboard", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Layout> layouts = new LinkedHashSet<>();
+
 }

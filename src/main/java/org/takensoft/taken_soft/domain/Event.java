@@ -25,7 +25,7 @@ public class Event {
     
     @Column(name = "event_type", length = 40)
     private String eventType;
-    
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "layout_widget_id", nullable = false)
     private LayoutWidget layoutWidget;

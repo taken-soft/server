@@ -56,3 +56,15 @@ VALUES (33, '라모트 스크린 가동상태', 'on/off', 4),
        (38, '사이로 온도', 'ºC', 4),
        (39, '머신펌프 부하율', '%', 4),
        (40, '머신펌프 RPM', 'rpm', 4);
+
+INSERT INTO widget (widget_id, widget_type) VALUES (1, 'text');
+INSERT INTO widget (widget_id, widget_type) VALUES (2, 'image');
+INSERT INTO widget (widget_id, widget_type) VALUES (3, 'line graph');
+INSERT INTO widget (widget_id, widget_type) VALUES (4, 'bar graph');
+INSERT INTO widget (widget_id, widget_type) VALUES (5, 'rectangle');
+INSERT INTO widget (widget_id, widget_type) VALUES (6, 'circle');
+
+
+
+
+

@@ -1,6 +1,7 @@
 package org.takensoft.taken_soft.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.takensoft.taken_soft.domain.*;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DashboardService {
@@ -121,12 +123,23 @@ public class DashboardService {
         return null;
     }
 
+    /** 대시보드 삭제 - 완료 */
+    public void deleteDashboard(Integer dashboardId) {
+        dashBoardRepository.deleteById(dashboardId);
+    }
 
-    /** 대시보드 삭제 */
-    public void deleteDashboard(Integer board_id)
-    {
-        /* 이거 이렇게만 두면 연관관계 때문에 삭제 안됨. 장치/센서/센서 데이터 빼고는 CASCADE 되도록 해야함 */
-        dashBoardRepository.deleteById(board_id);
+
+    /** 대시보드와 관련된 layout ~ event 까지 삭제 - 대시보드는 삭제되지 않음 */
+    public void deleteLayoutsByDashboardId(Integer dashboardId) {
+        Dashboard dashboard = dashBoardRepository.findById(dashboardId).orElseThrow();
+        Set<Layout> layouts = dashboard.getLayouts();
+
+        for (Layout layout : layouts) {
+            Integer layout_id = layout.getId();
+            log.info("레이아웃 아이디 : {}", layout_id);
+            layoutRepository.deleteById(layout_id); // 레이아웃 삭제 (cascade에 의해 연관된 엔티티들도 자동으로 삭제됨)
+        }
+        layoutRepository.flush(); // 영속성 컨텍스트를 플러시하여 변경 사항을 데이터베이스에 즉시 반영
     }
 
     public List<Dashboard> getAllDashboards()
