@@ -13,7 +13,9 @@ import java.util.Set;
 @Entity
 @Table(name = "layout_widget")
 @Getter
-@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class LayoutWidget implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
