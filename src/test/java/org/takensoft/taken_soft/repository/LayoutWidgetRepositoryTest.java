@@ -37,23 +37,7 @@ class LayoutWidgetRepositoryTest {
         
         layoutWidget=LayoutWidget
                 .builder()
-                .layoutWidgetProperty(LayoutWidgetProperty
-                        .builder()
-                        .graph(Graph.builder()
-                                .colors(new HashMap<>())
-                                .build())
-                        .image(Image.builder()
-                                .src("src")
-                                .build())
-                        .polygon(Polygon.builder()
-                                .operation("operation")
-                                .build())
-                        .text(Text.builder()
-                                .innerText("innerText")
-                                .operation("operation")
-                                .textColor("textColor")
-                                .build())
-                        .build())
+                .layoutWidgetProperty("")
                 .build();
         System.out.println("레이아웃 위젯 속성 : "+layoutWidget.getLayoutWidgetProperty().toString());
         
