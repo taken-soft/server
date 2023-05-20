@@ -20,11 +20,11 @@ import java.util.Map;
 @Controller
 @RequestMapping("dashboards")
 public class DashboardController {
-
+    
     @Autowired
     private DashboardService dashboardService;
-
-
+    
+    
     /**
      * 대시보드 생성(단순 대시보드 생성) - 완료
      */
@@ -33,7 +33,7 @@ public class DashboardController {
         CreateDashboardResponse createDashboardResponse = dashboardService.createDashboard(createDashboardRequest);
         return ResponseEntity.ok(createDashboardResponse);
     }
-
+    
     
     /**
      * 대시보드 렌더링 요청
@@ -48,7 +48,7 @@ public class DashboardController {
         SingleDashboardResponse singleDashboardResponse = dashboardService.getSingleDashboardDTO(board_id);
         return ResponseEntity.ok(singleDashboardResponse);
     }
-
+    
     /**
      * 대시보드 이름 수정
      */
@@ -57,7 +57,7 @@ public class DashboardController {
         Dashboard updatedDashboard = dashboardService.updateDashboardName(board_id, dashboard.getDashboardTitle());
         return ResponseEntity.ok(updatedDashboard);
     }
-
+    
     /**
      * 대시보드 수정(저장)
      */
@@ -66,7 +66,7 @@ public class DashboardController {
         SingleDashboardResponse res = dashboardService.updateDashboard(board_id, updateDashboardRequest);
         return ResponseEntity.ok(res);
     }
-
+    
     /**
      * 대시보드 삭제
      */
@@ -75,7 +75,7 @@ public class DashboardController {
         dashboardService.deleteDashboard(board_id);
         return ResponseEntity.ok().build();
     }
-
+    
     /**
      * 대시보드 전체 리스트 명 조회
      */
@@ -92,3 +92,4 @@ public class DashboardController {
         }
         return ResponseEntity.ok(dashboardList);
     }
+}

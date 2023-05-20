@@ -1,10 +1,10 @@
 package org.takensoft.taken_soft.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.takensoft.taken_soft.domain.*;
 import org.takensoft.taken_soft.dto.*;
-import org.takensoft.taken_soft.domain.Dashboard;
-import org.takensoft.taken_soft.domain.Layout;
 import org.takensoft.taken_soft.dto.request.CreateDashboardRequest;
 import org.takensoft.taken_soft.dto.request.UpdateDashboardRequest;
 import org.takensoft.taken_soft.dto.response.CreateDashboardResponse;
@@ -14,15 +14,14 @@ import org.takensoft.taken_soft.repository.LayoutRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
+@RequiredArgsConstructor
 public class DashboardService {
-
-    @Autowired
-    private DashBoardRepository dashBoardRepository;
-
-    @Autowired
-    private LayoutRepository layoutRepository;
+    
+    private final DashBoardRepository dashBoardRepository;
+    private final LayoutRepository layoutRepository;
 
     /** 초기 대시보드 및 레이아웃 생성 */
     public CreateDashboardResponse createDashboard(CreateDashboardRequest createDashboardRequest) {
@@ -74,14 +73,34 @@ public class DashboardService {
     public SingleDashboardResponse getSingleDashboardDTO(Integer board_id){
         /* DB에서 해당 대시보드 가져옴 */
         Dashboard dashboard = dashBoardRepository.findById(board_id).orElseThrow();
-        /* 대시보드 -> 레이아웃 -> 레이아웃 위젯 -> 이벤트, 레이아웃_위젯_센서를 찾아 이를 전부 하나의 반환 DTO로 만들고 이를 반환해주는 로직 작성 필요 */
 
-        // 샘플 (코드 오류 안나라고 넣어둠)
-        SingleDashboardResponse singleDashboardDTO = SingleDashboardResponse.builder().build();
+        Set<Layout> layouts = dashboard.getLayouts();
+        
+        List<LayoutDto> layoutDtoList=new ArrayList<>();
+        for (Layout layout: layouts) {
+            Set<LayoutWidget> layoutWidgets = layout.getLayoutWidgets();
 
-
-
-        return singleDashboardDTO;
+            List<LayoutWidgetDto> layoutWidgetDtoList=new ArrayList<>();
+            for (LayoutWidget layoutWidget:layoutWidgets) {
+                Set<LayoutWidgetSensor> layoutWidgetSensors = layoutWidget.getLayoutWidgetSensors();
+    
+                List<LayoutWidgetSensorDto> layoutWidgetSensorDtoList=new ArrayList<>();
+                for (LayoutWidgetSensor layoutWidgetSensor:layoutWidgetSensors) {
+                    Sensor sensor = layoutWidgetSensor.getSensor();
+                    layoutWidgetSensorDtoList.add(new LayoutWidgetSensorDto(layoutWidgetSensor,new SensorDto(sensor))) ;
+                }
+                Set<Event> events = layoutWidget.getEvents();
+    
+                List<EventDto> eventDtoList=new ArrayList<>();
+                for (Event event:events) {
+                    eventDtoList.add(new EventDto(event)) ;
+                }
+                WidgetDto widgetDto = new WidgetDto(layoutWidget.getWidget());
+                layoutWidgetDtoList.add(new LayoutWidgetDto(layoutWidget,eventDtoList,layoutWidgetSensorDtoList,widgetDto)) ;
+            }
+            layoutDtoList.add(new LayoutDto(layout,layoutWidgetDtoList));
+        }
+        return new SingleDashboardResponse(dashboard,layoutDtoList);
     }
 
 
@@ -97,14 +116,9 @@ public class DashboardService {
     public SingleDashboardResponse updateDashboard(Integer board_id, UpdateDashboardRequest updateDashboardRequest)
     {
         Dashboard dashboard = dashBoardRepository.findById(board_id).orElse(null);
+        updateDashboardRequest.getDashboardTitle();
         
-        /* dashboardSaveDTO 안의 값을 이용해서 기존 dashboard의 값을 업데이트하는 로직 작성 필요 */
-        SingleDashboardResponse res= new SingleDashboardResponse().builder()
-                .dashboardTitle(updateDashboardRequest.getDashboardTitle())
-                .layoutList(updateDashboardRequest.getLayoutDtoList()).build();
-
-        // 샘플 ( 오류 안나라고...)
-        return res;
+        return null;
     }
 
 
