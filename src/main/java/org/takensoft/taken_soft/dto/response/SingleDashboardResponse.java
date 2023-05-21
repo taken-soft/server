@@ -2,16 +2,13 @@ package org.takensoft.taken_soft.dto.response;
 
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.takensoft.taken_soft.domain.Dashboard;
-import org.takensoft.taken_soft.domain.Layout;
 import org.takensoft.taken_soft.dto.LayoutDto;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
 
@@ -23,7 +20,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor(staticName = "of")
 public class SingleDashboardResponse {
-    private Integer id;
+    private Integer dashboardId;
     private String dashboardTitle;
     private String dashboardType;
     private Integer dashboardSequence;

@@ -2,7 +2,6 @@ package org.takensoft.taken_soft.dto;
 
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.takensoft.taken_soft.domain.LayoutWidgetSensor;
@@ -11,7 +10,7 @@ import org.takensoft.taken_soft.domain.LayoutWidgetSensor;
 @NoArgsConstructor
 @AllArgsConstructor(staticName = "of")
 public class LayoutWidgetSensorDto {
-    private Integer id;
+    private Integer layoutWidgetSensorId;
     private Integer layoutWidgetSensorSequence;
     private SensorDto sensorDTO;
     public LayoutWidgetSensorDto(LayoutWidgetSensor layoutWidgetSensor,SensorDto sensorDTO){

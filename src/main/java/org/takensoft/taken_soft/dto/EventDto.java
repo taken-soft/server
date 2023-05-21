@@ -1,8 +1,6 @@
 package org.takensoft.taken_soft.dto;
 
-import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.takensoft.taken_soft.domain.Event;
@@ -11,8 +9,7 @@ import org.takensoft.taken_soft.domain.Event;
 @NoArgsConstructor
 @AllArgsConstructor(staticName = "of")
 public class EventDto {
-    @Nullable
-    private Integer id;
+    private Integer eventId;
     private Integer eventOver;
     private Integer eventUnder;
     private String eventColor;
