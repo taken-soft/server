@@ -60,10 +60,10 @@ public class DashboardController {
     /**
      * 대시보드 수정(저장)
      */
-    @PostMapping("/{board_id}")
-    public ResponseEntity<?> updateDashboard(@PathVariable Integer board_id, @RequestBody UpdateDashboardRequest updateDashboardRequest) {
-        SingleDashboardResponse res = dashboardService.updateDashboard(board_id, updateDashboardRequest);
-        return ResponseEntity.ok(res);
+    @PostMapping("/save")
+    public ResponseEntity<?> updateDashboard( @RequestBody UpdateDashboardRequest updateDashboardRequest) {
+        dashboardService.updateDashboard( updateDashboardRequest);
+        return ResponseEntity.ok("굿 ㅋㅋ");
     }
 
     /**

@@ -18,14 +18,23 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
-@AllArgsConstructor(staticName = "of")
+@AllArgsConstructor
 public class SingleDashboardResponse {
     private Integer dashboardId;
     private String dashboardTitle;
     private String dashboardType;
     private Integer dashboardSequence;
     private List<LayoutDto> layoutList=new ArrayList<>();
-    public SingleDashboardResponse(Dashboard dashboard,List<LayoutDto> layoutDtoList){
-        SingleDashboardResponse.of(dashboard.getId(),dashboard.getDashboardTitle(),dashboard.getDashboardType(),dashboard.getDashboardSequence(),layoutDtoList);
+    
+    public SingleDashboardResponse(Dashboard dashboard, List<LayoutDto> layoutDtoList) {
+        this.dashboardId=dashboard.getId();
+        this.dashboardTitle=dashboard.getDashboardTitle();
+        this.dashboardType=dashboard.getDashboardType();
+        this.dashboardSequence=dashboard.getDashboardSequence();
+        this.layoutList=layoutDtoList;
+    }
+    
+    public static SingleDashboardResponse of(Dashboard dashboard, List<LayoutDto> layoutDtoList) {
+        return new SingleDashboardResponse(dashboard,layoutDtoList);
     }
 }
