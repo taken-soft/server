@@ -2,26 +2,39 @@ package org.takensoft.taken_soft.dto.response;
 
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.takensoft.taken_soft.domain.Layout;
+import org.takensoft.taken_soft.domain.Dashboard;
+import org.takensoft.taken_soft.dto.LayoutDto;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
-/** 사용자에게 대시보드 1개의 모든 정보를 담아 리턴해주는 DTO */
+
+/**
+ *  대시보드 렌더링 응답 객체
+ *
+ */
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class SingleDashboardResponse {
-    private Integer id;
+    private Integer dashboardId;
     private String dashboardTitle;
     private String dashboardType;
     private Integer dashboardSequence;
-    private List<Layout> layoutList=new ArrayList<>();
-    /** 수정 필요 - 매우 중요 */
+    private List<LayoutDto> layoutList=new ArrayList<>();
+    
+    public SingleDashboardResponse(Dashboard dashboard, List<LayoutDto> layoutDtoList) {
+        this.dashboardId=dashboard.getId();
+        this.dashboardTitle=dashboard.getDashboardTitle();
+        this.dashboardType=dashboard.getDashboardType();
+        this.dashboardSequence=dashboard.getDashboardSequence();
+        this.layoutList=layoutDtoList;
+    }
+    
+    public static SingleDashboardResponse of(Dashboard dashboard, List<LayoutDto> layoutDtoList) {
+        return new SingleDashboardResponse(dashboard,layoutDtoList);
+    }
 }

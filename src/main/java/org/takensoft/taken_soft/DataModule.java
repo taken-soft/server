@@ -1,7 +1,5 @@
 package org.takensoft.taken_soft;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,7 +15,7 @@ import org.takensoft.taken_soft.repository.SensorRepository;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
 
 @Component
@@ -32,8 +30,8 @@ public class DataModule {
     
     @Autowired
     private SensorRepository sensorRepository;
-    
-    @Scheduled(fixedDelay = 10000000)
+
+    @Scheduled(fixedDelay = 1000)
     @Transactional
     public void addData() {
         List<Device> devices = deviceRepository.findAll();
@@ -55,8 +53,42 @@ public class DataModule {
     private void saveSensorData(Sensor sensor) {
         SensorData sensorData = new SensorData();
         sensorData.setSensor(sensor);
-        sensorData.setSensorDataValue(String.valueOf(Math.random() * 100 + 1));
-        sensorData.setSensorDataTime(ZonedDateTime.now());
+        sensorData.setSensorDataValue(getRandomSensorValue(sensor.getSensorUnit()));
+        ZonedDateTime now = ZonedDateTime.now().withNano(0);
+        sensorData.setSensorDataTime(now);
         sensorDataRepository.save(sensorData);
+    }
+    
+    private String getRandomSensorValue(String sensorUnit) {
+        switch (sensorUnit) {
+            case "rpm" -> {
+                return String.valueOf(Math.random() * 2000 + 5000);
+            }
+            case "%" -> {
+                return String.valueOf(Math.random() * 40 + 30);
+            }
+            case "ºC" -> {
+                return String.valueOf(Math.random() * 190 + 10);
+            }
+            case "mm" -> {
+                return String.valueOf(Math.random() * 70 + 30);
+            }
+            case "MPa", "Mpa" -> {
+                return String.valueOf(Math.random() * 20 + 1);
+            }
+            case "l/min" -> {
+                return String.valueOf(Math.random() * 9.5 + 0.5);
+            }
+            case "HZ" -> {
+                return String.valueOf(Math.random() * 100 + 1);
+            }
+            case "on/off" -> {
+                Random random = new Random();
+                return random.nextBoolean() ? "on" : "off";
+            }
+            default -> {
+                return null;
+            }
+        }
     }
 }

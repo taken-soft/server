@@ -1,8 +1,7 @@
 package org.takensoft.taken_soft.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -11,9 +10,11 @@ import java.util.Set;
 @Table(name = "layout")
 @Getter
 @Setter
+@ToString
+@NoArgsConstructor
 public class Layout {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "layout_id", nullable = false)
     private Integer id;
     
@@ -22,10 +23,11 @@ public class Layout {
     
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "dashboard_id", nullable = false)
+    @ToString.Exclude
     private Dashboard dashboard;
-    
-    @OneToMany(mappedBy = "layout")
-    private Set<LayoutWidget>layoutWidgets=new LinkedHashSet<>();
-    
+
+    @OneToMany(mappedBy = "layout", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private Set<LayoutWidget> layoutWidgets = new LinkedHashSet<>();
     
 }

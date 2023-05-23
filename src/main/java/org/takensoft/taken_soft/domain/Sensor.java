@@ -10,10 +10,9 @@ import java.util.Set;
 @Entity
 @Table(name = "sensors")
 @Getter
-@Setter
 public class Sensor {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "sensor_id", nullable = false)
     private Integer id;
     

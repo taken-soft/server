@@ -1,28 +1,28 @@
 package org.takensoft.taken_soft.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.takensoft.taken_soft.domain.*;
 import org.takensoft.taken_soft.dto.*;
-import org.takensoft.taken_soft.domain.Dashboard;
-import org.takensoft.taken_soft.domain.Layout;
 import org.takensoft.taken_soft.dto.request.CreateDashboardRequest;
 import org.takensoft.taken_soft.dto.request.UpdateDashboardRequest;
 import org.takensoft.taken_soft.dto.response.CreateDashboardResponse;
 import org.takensoft.taken_soft.dto.response.SingleDashboardResponse;
-import org.takensoft.taken_soft.repository.DashBoardRepository;
-import org.takensoft.taken_soft.repository.LayoutRepository;
+import org.takensoft.taken_soft.repository.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class DashboardService {
-
-    @Autowired
-    private DashBoardRepository dashBoardRepository;
-
-    @Autowired
-    private LayoutRepository layoutRepository;
+    private final WidgetRepository widgetRepository;
+    private final LayoutWidgetRepository layoutWidgetRepository;
+    private final SensorRepository sensorRepository;
+    
+    private final DashBoardRepository dashBoardRepository;
+    private final LayoutRepository layoutRepository;
 
     /** 초기 대시보드 및 레이아웃 생성 */
     public CreateDashboardResponse createDashboard(CreateDashboardRequest createDashboardRequest) {
@@ -32,20 +32,20 @@ public class DashboardService {
         // 대시보드 순서
         Integer dashboardSequence = createDashboardRequest.getDashboardSequence();
         // 새로운 대시보드 생성
-        Dashboard newDashboard = Dashboard.builder()
-                .dashboardTitle("New Dashboard")
-                .dashboardType(dashboardType)
-                .dashboardSequence(dashboardSequence)
-                .build();
+        Dashboard newDashboard = new Dashboard();
+        newDashboard.setDashboardTitle("New Dashboard");
+        newDashboard.setDashboardType(dashboardType);
+        newDashboard.setDashboardSequence(dashboardSequence);
+
         // 대시보드 저장
         dashBoardRepository.save(newDashboard);
 
         // 레이아웃 생성
         int numLayouts=0;
 
-        if (dashboardType.equals("2X2")) {
+        if (dashboardType.equals("2x2")) {
             numLayouts = 4;
-        } else if (dashboardType.equals("2X4")) {
+        } else if (dashboardType.equals("2x4")) {
             numLayouts = 8;
         }
         // 레이아웃 저장 및 LayoutDTO 저장
@@ -54,12 +54,13 @@ public class DashboardService {
             Layout newLayout = new Layout();
             newLayout.setLayoutSequence(i);
             newLayout.setDashboard(newDashboard);
+            layoutRepository.save(newLayout);
 
             LayoutDto newLayoutDto = new LayoutDto();
-            newLayoutDto.setId(newLayout.getId());
+            newLayoutDto.setLayoutId(newLayout.getId());
             newLayoutDto.setLayoutSequence(newLayout.getLayoutSequence());
             layoutDtoList.add(newLayoutDto);
-            layoutRepository.save(newLayout);
+
         }
 
         // CreateDashboardResponse 반환
@@ -72,15 +73,37 @@ public class DashboardService {
     /** 싱글 대시보드 반환 */
     public SingleDashboardResponse getSingleDashboardDTO(Integer board_id){
         /* DB에서 해당 대시보드 가져옴 */
-        Dashboard dashboard = dashBoardRepository.findById(board_id).orElseThrow();
-        /* 대시보드 -> 레이아웃 -> 레이아웃 위젯 -> 이벤트, 레이아웃_위젯_센서를 찾아 이를 전부 하나의 반환 DTO로 만들고 이를 반환해주는 로직 작성 필요 */
+        Dashboard dashboard = dashBoardRepository.findById(board_id).orElseThrow(RuntimeException::new);
+        
+        Set<Layout> layouts = dashboard.getLayouts();//db에서 가져온 layout들
+        log.info("레이아웃 : {}",layouts.toString());
+        List<LayoutDto> layoutDtoList=new ArrayList<>();//layout들을 담을 dto
+        for (Layout layout: layouts) {
+            Set<LayoutWidget> layoutWidgets = layout.getLayoutWidgets();//db에서 가져온 layout widget들
 
-        // 샘플 (코드 오류 안나라고 넣어둠)
-        SingleDashboardResponse singleDashboardDTO = SingleDashboardResponse.builder().build();
+            List<LayoutWidgetDto> layoutWidgetDtoList=new ArrayList<>();//layout widget들을 담을 dto
+            for (LayoutWidget layoutWidget:layoutWidgets) {
+                Set<LayoutWidgetSensor> layoutWidgetSensors = layoutWidget.getLayoutWidgetSensors();//db에서 가져온 layout widget sensor들
+                List<LayoutWidgetSensorDto> layoutWidgetSensorDtoList=new ArrayList<>();// layout widget sensor들을 담을 dto
+                for (LayoutWidgetSensor layoutWidgetSensor:layoutWidgetSensors) {
+                    LayoutWidgetSensorDto layoutWidgetSensorDto = LayoutWidgetSensorDto.of(layoutWidgetSensor);
+                    log.info("layoutWidgetSensorDto : {}", layoutWidgetSensorDto.toString());
+                    layoutWidgetSensorDtoList.add(layoutWidgetSensorDto);//dto를 생성 및  layout widget sensor dto에 저장
+                }
+                Set<Event> events = layoutWidget.getEvents();//db에서 가져온 event들
+                List<EventDto> eventDtoList=new ArrayList<>();//event들을 담을 dto
+                for (Event event:events) {
+                    EventDto eventDto = EventDto.of(event);
+                    log.info("eventDto : {}", eventDto.toString());
+                    eventDtoList.add(eventDto) ;//event들을 dto로 전환 후 event dto에 저장
+                }
+                
+                layoutWidgetDtoList.add(LayoutWidgetDto.of(layoutWidget,eventDtoList,layoutWidgetSensorDtoList)) ;
+            }
+            layoutDtoList.add(LayoutDto.of(layout,layoutWidgetDtoList));
+        }
 
-
-
-        return singleDashboardDTO;
+        return new SingleDashboardResponse(dashboard,layoutDtoList);
     }
 
 
@@ -93,21 +116,67 @@ public class DashboardService {
     }
 
     /** 대시보드 (값, 위젯 등) 업데이트 */
-    public Dashboard updateDashboard(Integer board_id, UpdateDashboardRequest updateDashboardRequest)
-    {
-        Dashboard dashboard = dashBoardRepository.findById(board_id).orElseThrow();
-        /* dashboardSaveDTO 안의 값을 이용해서 기존 dashboard의 값을 업데이트하는 로직 작성 필요 */
+    public void updateDashboard(UpdateDashboardRequest updateDashboardRequest) throws NullPointerException{
+        Dashboard dashboard = dashBoardRepository.findById(updateDashboardRequest.getDashboardId()).orElse(null);//대시보드&레이아웃까지만 생성됨
+//        Set<Layout> layouts = Objects.requireNonNull(dashboard).getLayouts();
+        deleteLayoutsByDashboardId(updateDashboardRequest.getDashboardId());
+        Set<Layout> layouts= Objects.requireNonNull(dashboard).getLayouts();
+        List<LayoutDto> layoutDtoList = updateDashboardRequest.getLayoutDtoList();
+        for (LayoutDto layoutDto:layoutDtoList) {
+            Set<LayoutWidget> layoutWidgets=new HashSet<>();
+            
+            Layout layout = new Layout();
+            Objects.requireNonNull(layout).setDashboard(dashboard);
+            layout.setLayoutSequence(layoutDto.getLayoutSequence());
+            List<LayoutWidgetDto> layoutWidgetDtoList = layoutDto.getLayoutWidgetDtoList();
+            for (LayoutWidgetDto layoutWidgetDto : layoutWidgetDtoList) {
+                Set<Event> events=new HashSet<>();
+                Widget widget = widgetRepository.findById(layoutWidgetDto.getWidgetId()).orElse(null);
+                LayoutWidget layoutWidget=LayoutWidget.ofDto(layoutWidgetDto,widget,layout);
+                List<EventDto> eventDtoList = layoutWidgetDto.getEventDtoList();
+                for (EventDto eventDto: eventDtoList) {
+                    events.add(Event.ofDto(eventDto,layoutWidget));
+                }
+                Set<LayoutWidgetSensor> layoutWidgetSensors=new HashSet<>();
+                
+                List<LayoutWidgetSensorDto> layoutWidgetSensorDtoList = layoutWidgetDto.getLayoutWidgetSensorDtoList();
+                for (LayoutWidgetSensorDto layoutWidgetSensorDto: layoutWidgetSensorDtoList) {
+                    LayoutWidgetSensor layoutWidgetSensor = LayoutWidgetSensor.ofDto(layoutWidgetSensorDto);
+                    Sensor sensor = sensorRepository.findById(layoutWidgetSensorDto.getSensorId()).orElse(null);
+                    layoutWidgetSensor.setSensor(sensor);
+                    layoutWidgetSensor.setLayoutWidget(layoutWidget);
+                    layoutWidgetSensors.add(layoutWidgetSensor);
+                }
+                layoutWidget.setLayoutWidgetSensors(layoutWidgetSensors);
+                layoutWidget.setEvents(events);
+                layoutWidgets.add(layoutWidget);
+                //layoutWidgetDto.getWidgetId();
+            }
+            layout.setLayoutWidgets(layoutWidgets);
+            layouts.add(layout);
+        }
+        Objects.requireNonNull(dashboard).setDashboardTitle(updateDashboardRequest.getDashboardTitle());
+        dashboard.setLayouts(layouts);
+        dashBoardRepository.saveAndFlush(dashboard);
+    }
 
-        // 샘플 ( 오류 안나라고...)
-        return new Dashboard();
+    /** 대시보드 삭제 - 완료 */
+    public void deleteDashboard(Integer dashboardId) {
+        dashBoardRepository.deleteById(dashboardId);
     }
 
 
-    /** 대시보드 삭제 */
-    public void deleteDashboard(Integer board_id)
-    {
-        /* 이거 이렇게만 두면 연관관계 때문에 삭제 안됨. 장치/센서/센서 데이터 빼고는 CASCADE 되도록 해야함 */
-        dashBoardRepository.deleteById(board_id);
+    /** 대시보드와 관련된 layout ~ event 까지 삭제 - 대시보드는 삭제되지 않음 */
+    public void deleteLayoutsByDashboardId(Integer dashboardId) {
+        Dashboard dashboard = dashBoardRepository.findById(dashboardId).orElseThrow();
+        Set<Layout> layouts = dashboard.getLayouts();
+
+        for (Layout layout : layouts) {
+            Integer layout_id = layout.getId();
+            log.info("레이아웃 아이디 : {}", layout_id);
+            layoutRepository.deleteById(layout_id); // 레이아웃 삭제 (cascade에 의해 연관된 엔티티들도 자동으로 삭제됨)
+        }
+        layoutRepository.flush(); // 영속성 컨텍스트를 플러시하여 변경 사항을 데이터베이스에 즉시 반영
     }
 
     public List<Dashboard> getAllDashboards()
