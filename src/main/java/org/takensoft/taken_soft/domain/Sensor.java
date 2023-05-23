@@ -10,7 +10,6 @@ import java.util.Set;
 @Entity
 @Table(name = "sensors")
 @Getter
-@Setter
 public class Sensor {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

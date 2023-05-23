@@ -1,28 +1,21 @@
 package org.takensoft.taken_soft.domain;
 
 //import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vladmihalcea.hibernate.type.basic.PostgreSQLHStoreType;
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-//import org.hibernate.annotations.Type;
-import org.hibernate.annotations.Type;
-import org.takensoft.taken_soft.dto.property.LayoutWidgetProperty;
 
-import java.io.IOException;
+import jakarta.persistence.*;
+import lombok.*;
+import org.takensoft.taken_soft.dto.LayoutWidgetDto;
+
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.Map;
 import java.util.Set;
 //import org.hibernate.annotations.TypeDef;
 @Entity
 @Table(name = "layout_widget")
 @Getter
-@Setter
+@Builder
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class LayoutWidget implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -47,16 +40,51 @@ public class LayoutWidget implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "widget_id", nullable = false)
+    @ToString.Exclude
     private Widget widget;
 
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "layout_id",nullable = false)
+    @ToString.Exclude
     private Layout layout;
 
     @OneToMany(mappedBy = "layoutWidget", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<LayoutWidgetSensor> layoutWidgetSensors = new LinkedHashSet<>();
+    @ToString.Exclude
+    private Set<LayoutWidgetSensor> layoutWidgetSensors;
 
     @OneToMany(mappedBy = "layoutWidget", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Event> events = new LinkedHashSet<>();
-
+    @ToString.Exclude
+    private Set<Event> events;
+    
+    public void setLayout(Layout layout) {
+        this.layout = layout;
+    }
+    
+    public void setWidget(Widget widget) {
+        this.widget = widget;
+    }
+    
+    public LayoutWidget(LayoutWidgetDto layoutWidgetDto, Widget widget,
+                        Layout layout) {
+        this.layoutWidgetStartPos = layoutWidgetDto.getLayoutWidgetStartPos();
+        this.layoutWidgetEndPos = layoutWidgetDto.getLayoutWidgetEndPos();
+        this.layoutWidgetZPos = layoutWidgetDto.getLayoutWidgetZPos();
+        this.layoutWidgetColor = layoutWidgetDto.getLayoutWidgetColor();
+        this.layoutWidgetProperty = layoutWidgetDto.getLayoutWidgetProperty();
+        this.widget = widget;
+        this.layout = layout;
+    }
+    
+    public static LayoutWidget ofDto(LayoutWidgetDto layoutWidgetDto,Widget widget,
+                                     Layout layout) {
+        return new LayoutWidget(layoutWidgetDto,widget,layout);
+    }
+    
+    public void setLayoutWidgetSensors(Set<LayoutWidgetSensor> layoutWidgetSensors) {
+        this.layoutWidgetSensors = layoutWidgetSensors;
+    }
+    
+    public void setEvents(Set<Event> events) {
+        this.events = events;
+    }
 }

@@ -35,7 +35,12 @@ public class DashboardController {
     }
 
     /**
-     * 대시보드 조회
+     * 대시보드 렌더링 요청
+     *
+     * @param board_id board_id
+     * @return {@link ResponseEntity}
+     * @see ResponseEntity
+     * @see SingleDashboardResponse
      */
     @GetMapping("/{board_id}")
     public ResponseEntity<SingleDashboardResponse> getDashboards(@PathVariable Integer board_id) {
@@ -55,10 +60,10 @@ public class DashboardController {
     /**
      * 대시보드 수정(저장)
      */
-    @PostMapping("/{board_id}")
-    public ResponseEntity<Dashboard> updateDashboard(@PathVariable Integer board_id, @RequestBody UpdateDashboardRequest updateDashboardRequest) {
-        Dashboard updatedDashboard = dashboardService.updateDashboard(board_id, updateDashboardRequest);
-        return ResponseEntity.ok(updatedDashboard);
+    @PostMapping("/save")
+    public ResponseEntity<?> updateDashboard( @RequestBody UpdateDashboardRequest updateDashboardRequest) {
+        dashboardService.updateDashboard( updateDashboardRequest);
+        return ResponseEntity.ok("굿 ㅋㅋ");
     }
 
     /**
