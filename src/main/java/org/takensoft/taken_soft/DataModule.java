@@ -14,7 +14,6 @@ import org.takensoft.taken_soft.repository.SensorRepository;
 
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 
@@ -31,12 +30,12 @@ public class DataModule {
     @Autowired
     private SensorRepository sensorRepository;
 
-    @Scheduled(fixedDelay = 1000)
+    @Scheduled(fixedDelay = 100000)
     @Transactional
     public void addData() {
         List<Device> devices = deviceRepository.findAll();
         for (Device device : devices) {
-            log.info("Device name: {}", Objects.requireNonNull(device).getDeviceName());
+//            log.info("Device name: {}", Objects.requireNonNull(device).getDeviceName());
             setAllSensorData(device);
         }
     }
@@ -44,8 +43,8 @@ public class DataModule {
     private void setAllSensorData(Device device) {
         Set<Sensor> sensors = sensorRepository.findByDevice_Id(device.getId());
         for (Sensor sensor : sensors) {
-            log.info("센서 이름: {}", sensor.getSensorName());
-            log.info("센서 id: {}", sensor.getId());
+//            log.info("센서 이름: {}", sensor.getSensorName());
+//            log.info("센서 id: {}", sensor.getId());
             saveSensorData(sensor);
         }
     }
