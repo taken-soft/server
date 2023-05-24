@@ -18,5 +18,5 @@ import java.util.List;
 @AllArgsConstructor
 public class CreateDashboardResponse {
     private Integer dashboardId;
-    private List<LayoutDto> layoutDtos;
+    private List<LayoutDto> layoutDtoList;
 }

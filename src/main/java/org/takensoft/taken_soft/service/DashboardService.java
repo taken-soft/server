@@ -26,6 +26,7 @@ public class DashboardService {
 
     /** 초기 대시보드 및 레이아웃 생성 */
     public CreateDashboardResponse createDashboard(CreateDashboardRequest createDashboardRequest) {
+        log.info(String.valueOf(createDashboardRequest));
         /* createDashboardRequest 를 잘 분해하여 데이터베이스에 저장해주는 로직 작성 필요 */
         // 대시보드 타입
         String dashboardType = createDashboardRequest.getDashboardType();
@@ -66,7 +67,7 @@ public class DashboardService {
         // CreateDashboardResponse 반환
         CreateDashboardResponse CDR = new CreateDashboardResponse();
         CDR.setDashboardId(newDashboard.getId());
-        CDR.setLayoutDtos(layoutDtoList);
+        CDR.setLayoutDtoList(layoutDtoList);
         return CDR;
     }
 
@@ -169,15 +170,18 @@ public class DashboardService {
     /** 대시보드와 관련된 layout ~ event 까지 삭제 - 대시보드는 삭제되지 않음 */
     public void deleteLayoutsByDashboardId(Integer dashboardId) {
         Dashboard dashboard = dashBoardRepository.findById(dashboardId).orElseThrow();
-        Set<Layout> layouts = dashboard.getLayouts();
-
+        Set<Layout> layouts = new HashSet<>(dashboard.getLayouts());
+    
         for (Layout layout : layouts) {
-            Integer layout_id = layout.getId();
-            log.info("레이아웃 아이디 : {}", layout_id);
-            layoutRepository.deleteById(layout_id); // 레이아웃 삭제 (cascade에 의해 연관된 엔티티들도 자동으로 삭제됨)
+            Integer layoutId = layout.getId();
+            log.info("Layout ID: {}", layoutId);
+            layoutRepository.deleteById(layoutId);
         }
-        layoutRepository.flush(); // 영속성 컨텍스트를 플러시하여 변경 사항을 데이터베이스에 즉시 반영
+    
+        dashboard.getLayouts().clear(); // Clear the layouts set in the dashboard entity
+        dashBoardRepository.saveAndFlush(dashboard); // Save the modified dashboard
     }
+
 
     public List<Dashboard> getAllDashboards()
     {
