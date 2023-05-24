@@ -2,6 +2,7 @@ package org.takensoft.taken_soft;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,10 +34,15 @@ public class DataModule {
     @Scheduled(fixedDelay = 100000)
     @Transactional
     public void addData() {
-        List<Device> devices = deviceRepository.findAll();
-        for (Device device : devices) {
+        try{
+            List<Device> devices = deviceRepository.findAll();
+            for (Device device : devices) {
 //            log.info("Device name: {}", Objects.requireNonNull(device).getDeviceName());
-            setAllSensorData(device);
+                setAllSensorData(device);
+            }
+        }
+        catch (DataAccessException ex) {
+            log.error("Error saving sensor data: {}", ex.getMessage());
         }
     }
     

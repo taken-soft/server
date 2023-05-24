@@ -1,18 +1,17 @@
 package org.takensoft.taken_soft.repository;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.takensoft.taken_soft.domain.Sensor;
 import org.takensoft.taken_soft.domain.SensorData;
 
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
-import java.util.List;
 import java.util.Set;
 
+@Transactional
 @Repository
 public interface SensorRepository extends JpaRepository<Sensor, Integer> {
     Set<Sensor> findByDevice_Id(Integer id);
