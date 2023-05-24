@@ -2,6 +2,7 @@ package org.takensoft.taken_soft;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,10 +34,15 @@ public class DataModule {
     @Scheduled(fixedDelay = 100000)
     @Transactional
     public void addData() {
-        List<Device> devices = deviceRepository.findAll();
-        for (Device device : devices) {
+        try{
+            List<Device> devices = deviceRepository.findAll();
+            for (Device device : devices) {
 //            log.info("Device name: {}", Objects.requireNonNull(device).getDeviceName());
-            setAllSensorData(device);
+                setAllSensorData(device);
+            }
+        }
+        catch (DataAccessException ex) {
+            log.error("Error saving sensor data: {}", ex.getMessage());
         }
     }
     
@@ -61,25 +67,25 @@ public class DataModule {
     private String getRandomSensorValue(String sensorUnit) {
         switch (sensorUnit) {
             case "rpm" -> {
-                return String.valueOf(Math.random() * 2000 + 5000);
+                return String.format("%.3f", Math.random() * 2000 + 5000);
             }
             case "%" -> {
-                return String.valueOf(Math.random() * 40 + 30);
+                return String.format("%.3f", Math.random() * 40 + 30);
             }
             case "ºC" -> {
-                return String.valueOf(Math.random() * 190 + 10);
+                return String.format("%.3f", Math.random() * 190 + 10);
             }
             case "mm" -> {
-                return String.valueOf(Math.random() * 70 + 30);
+                return String.format("%.3f", Math.random() * 70 + 30);
             }
             case "MPa", "Mpa" -> {
-                return String.valueOf(Math.random() * 20 + 1);
+                return String.format("%.3f", Math.random() * 20 + 1);
             }
             case "l/min" -> {
-                return String.valueOf(Math.random() * 9.5 + 0.5);
+                return String.format("%.3f", Math.random() * 9.5 + 0.5);
             }
             case "HZ" -> {
-                return String.valueOf(Math.random() * 100 + 1);
+                return String.format("%.3f", Math.random() * 100 + 1);
             }
             case "on/off" -> {
                 Random random = new Random();

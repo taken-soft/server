@@ -10,7 +10,7 @@ INSERT INTO sensors (sensor_id, sensor_name, sensor_unit, device_id) VALUES
                                                                          (1, '머신펌프 RPM', 'rpm', 1),
                                                                          (2, '머신펌프 부하율', '%', 1),
                                                                          (3, '사이로 온도', 'ºC', 1),
-                                                                         (4, '팬펌프 RPM', 'RPM', 1),
+                                                                         (4, '팬펌프 RPM', 'rpm', 1),
                                                                          (5, '팬펌프 부하율', '%', 1),
                                                                          (6, '1차 1번 라모트 스크린 부하율', '%', 1),
                                                                          (7, '어테뉴에이터 탱크 레밸 측정값', 'mm', 1),
@@ -20,8 +20,8 @@ INSERT INTO sensors (sensor_id, sensor_name, sensor_unit, device_id) VALUES
 
 -- 장비2
 INSERT INTO sensors (sensor_id, sensor_name, sensor_unit, device_id) VALUES
-                                                                         (11, '폼마스터 하이드로릭 오일 온도 설정값', '설정값', 2),
-                                                                         (12, '폼마스터 하이드로릭 오일 온도 측정값', '실측값', 2),
+                                                                         (11, '폼마스터 하이드로릭 오일 온도 설정값', 'ºC', 2),
+                                                                         (12, '폼마스터 하이드로릭 오일 온도 측정값', 'ºC', 2),
                                                                          (13, '폼마스터 쉐이킹 주파수 측정값', 'HZ', 2),
                                                                          (14, '폼마스터 쉐이킹 스트로크 측정값', 'mm', 2),
                                                                          (15, '폼마스터 루브리케이션 압력 커플링', 'Mpa', 2),
@@ -41,7 +41,7 @@ VALUES (21, '슬라이스 버티칼', 'mm', 3),
        (26, '라모트 스크린 모터 부하율', '%', 3),
        (27, '팬펌프 가동상태', 'on/off', 3),
        (28, '팬펌프 부하율', '%', 3),
-       (29, '팬펌프 RPM', 'RPM', 3),
+       (29, '팬펌프 RPM', 'rpm', 3),
        (30, '사이로 온도', 'ºC', 3),
        (31, '머신펌프 부하율', '%', 3),
        (32, '머신펌프 RPM', 'rpm', 3);
@@ -63,7 +63,6 @@ INSERT INTO widget (widget_id, widget_type) VALUES (3, 'line graph');
 INSERT INTO widget (widget_id, widget_type) VALUES (4, 'bar graph');
 INSERT INTO widget (widget_id, widget_type) VALUES (5, 'rectangle');
 INSERT INTO widget (widget_id, widget_type) VALUES (6, 'circle');
-
 
 
 
