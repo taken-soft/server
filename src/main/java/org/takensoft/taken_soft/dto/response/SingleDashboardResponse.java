@@ -24,14 +24,14 @@ public class SingleDashboardResponse {
     private String dashboardTitle;
     private String dashboardType;
     private Integer dashboardSequence;
-    private List<LayoutDto> layoutList=new ArrayList<>();
+    private List<LayoutDto> layoutDtoList =new ArrayList<>();
     
     public SingleDashboardResponse(Dashboard dashboard, List<LayoutDto> layoutDtoList) {
         this.dashboardId=dashboard.getId();
         this.dashboardTitle=dashboard.getDashboardTitle();
         this.dashboardType=dashboard.getDashboardType();
         this.dashboardSequence=dashboard.getDashboardSequence();
-        this.layoutList=layoutDtoList;
+        this.layoutDtoList =layoutDtoList;
     }
     
     public static SingleDashboardResponse of(Dashboard dashboard, List<LayoutDto> layoutDtoList) {

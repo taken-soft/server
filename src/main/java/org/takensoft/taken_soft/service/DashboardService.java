@@ -67,7 +67,7 @@ public class DashboardService {
         // CreateDashboardResponse 반환
         CreateDashboardResponse CDR = new CreateDashboardResponse();
         CDR.setDashboardId(newDashboard.getId());
-        CDR.setLayoutDtos(layoutDtoList);
+        CDR.setLayoutDtoList(layoutDtoList);
         return CDR;
     }
 
