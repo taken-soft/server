@@ -163,21 +163,12 @@ public class DashboardService {
     public void deleteDashboard(Integer dashboardId) {
         dashBoardRepository.deleteById(dashboardId);
     }
-
-
+    
+    
     /** 대시보드와 관련된 layout ~ event 까지 삭제 - 대시보드는 삭제되지 않음 */
     public void deleteLayoutsByDashboardId(Integer dashboardId) {
         Dashboard dashboard = dashBoardRepository.findById(dashboardId).orElseThrow();
-        Set<Layout> layouts = new HashSet<>(dashboard.getLayouts());
-    
-        for (Layout layout : layouts) {
-            Integer layoutId = layout.getId();
-            log.info("Layout ID: {}", layoutId);
-            layoutRepository.deleteById(layoutId);
-        }
-        layoutRepository.deleteByDashboard(dashboard);
-        
-        dashBoardRepository.saveAndFlush(dashboard); // Save the modified dashboard
+        layoutRepository.deleteAllByDashboard(dashboard);
     }
 
 
