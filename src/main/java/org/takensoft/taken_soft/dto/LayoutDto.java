@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.takensoft.taken_soft.domain.Layout;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Data
@@ -19,10 +20,14 @@ public class LayoutDto {
         this.layoutId=layout.getId();
         this.layoutSequence=layout.getLayoutSequence();
         this.layoutWidgetDtoList=layoutWidgetDtoList;
+        sortLayoutWidget();
     }
     
     public static LayoutDto of(Layout layout, List<LayoutWidgetDto> layoutWidgetDtoList) {
         return new LayoutDto( layout, layoutWidgetDtoList);
+    }
+    private void sortLayoutWidget(){
+        layoutWidgetDtoList.sort(Comparator.comparing(LayoutWidgetDto::getLayoutWidgetZPos).reversed());
     }
 }
 

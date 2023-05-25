@@ -65,10 +65,8 @@ public class DashboardService {
         }
 
         // CreateDashboardResponse 반환
-        CreateDashboardResponse CDR = new CreateDashboardResponse();
-        CDR.setDashboardId(newDashboard.getId());
-        CDR.setLayoutDtoList(layoutDtoList);
-        return CDR;
+
+        return new CreateDashboardResponse(newDashboard.getId(),layoutDtoList);
     }
 
     /** 싱글 대시보드 반환 */
@@ -103,8 +101,8 @@ public class DashboardService {
             }
             layoutDtoList.add(LayoutDto.of(layout,layoutWidgetDtoList));
         }
-
-        return new SingleDashboardResponse(dashboard,layoutDtoList);
+        
+        return new SingleDashboardResponse(dashboard, layoutDtoList);
     }
 
 
@@ -177,8 +175,8 @@ public class DashboardService {
             log.info("Layout ID: {}", layoutId);
             layoutRepository.deleteById(layoutId);
         }
-    
-        dashboard.getLayouts().clear(); // Clear the layouts set in the dashboard entity
+        layoutRepository.deleteByDashboard(dashboard);
+        
         dashBoardRepository.saveAndFlush(dashboard); // Save the modified dashboard
     }
 

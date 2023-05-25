@@ -8,6 +8,7 @@ import org.takensoft.taken_soft.domain.Dashboard;
 import org.takensoft.taken_soft.dto.LayoutDto;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -32,9 +33,14 @@ public class SingleDashboardResponse {
         this.dashboardType=dashboard.getDashboardType();
         this.dashboardSequence=dashboard.getDashboardSequence();
         this.layoutDtoList =layoutDtoList;
+        sortLayoutDtoList();
     }
     
     public static SingleDashboardResponse of(Dashboard dashboard, List<LayoutDto> layoutDtoList) {
         return new SingleDashboardResponse(dashboard,layoutDtoList);
+    }
+    
+    private void sortLayoutDtoList() {
+        layoutDtoList.sort(Comparator.comparing(LayoutDto::getLayoutSequence).reversed());
     }
 }
