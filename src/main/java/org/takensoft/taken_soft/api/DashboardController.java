@@ -1,17 +1,16 @@
 package org.takensoft.taken_soft.api;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.takensoft.taken_soft.domain.Dashboard;
 import org.takensoft.taken_soft.dto.request.CreateDashboardRequest;
-import org.takensoft.taken_soft.dto.response.CreateDashboardResponse;
 import org.takensoft.taken_soft.dto.request.UpdateDashboardRequest;
+import org.takensoft.taken_soft.dto.response.CreateDashboardResponse;
 import org.takensoft.taken_soft.dto.response.SingleDashboardResponse;
 import org.takensoft.taken_soft.service.DashboardService;
-import org.takensoft.taken_soft.domain.Dashboard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,11 +20,10 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("dashboards")
-@Slf4j
+@RequiredArgsConstructor
 public class DashboardController {
-
-    @Autowired
-    private DashboardService dashboardService;
+    
+    private final DashboardService dashboardService;
 
 
     /**
@@ -48,7 +46,7 @@ public class DashboardController {
     @GetMapping("/{board_id}")
     public ResponseEntity<SingleDashboardResponse> getDashboards(@PathVariable Integer board_id) {
         SingleDashboardResponse singleDashboardResponse = dashboardService.getSingleDashboardDTO(board_id);
-        return ResponseEntity.ok(singleDashboardResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(singleDashboardResponse);
     }
 
     /**
@@ -57,7 +55,7 @@ public class DashboardController {
     @PostMapping("/name/{board_id}")
     public ResponseEntity<Dashboard> updateDashboardName(@PathVariable Integer board_id, @RequestBody Dashboard dashboard) {
         Dashboard updatedDashboard = dashboardService.updateDashboardName(board_id, dashboard.getDashboardTitle());
-        return ResponseEntity.ok(updatedDashboard);
+        return ResponseEntity.status(HttpStatus.RESET_CONTENT).body(updatedDashboard);
     }
 
     /**
@@ -66,7 +64,7 @@ public class DashboardController {
     @PostMapping("/save")
     public ResponseEntity<?> updateDashboard( @RequestBody UpdateDashboardRequest updateDashboardRequest) {
         dashboardService.updateDashboard( updateDashboardRequest);
-        return ResponseEntity.ok("굿 ㅋㅋ");
+        return ResponseEntity.status(HttpStatus.RESET_CONTENT).build();
     }
 
     /**
@@ -78,15 +76,6 @@ public class DashboardController {
         return ResponseEntity.ok().build();
     }
 
-    /** 대시보드 제외 삭제 테스트 URI */
-    @GetMapping("del/{board_id}")
-    public ResponseEntity<Void> dontDeleteDashboard(@PathVariable("board_id") Integer board_id) {
-        dashboardService.deleteLayoutsByDashboardId(board_id);
-        return ResponseEntity.ok().build();
-    }
-    /**
-     * 대시보드 전체 리스트 명 조회
-     */
     /** 대시보드 전체 리스트 명 조회 */
     @GetMapping("/all")
     public ResponseEntity<List<Map<String, Object>>> getAllDashboards() {
