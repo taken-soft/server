@@ -48,21 +48,25 @@ public class DataModule {
     
     private void setAllSensorData(Device device) {
         Set<Sensor> sensors = sensorRepository.findByDevice_Id(device.getId());
+        ZonedDateTime now = ZonedDateTime.now().withNano(0);
         for (Sensor sensor : sensors) {
 //            log.info("센서 이름: {}", sensor.getSensorName());
 //            log.info("센서 id: {}", sensor.getId());
-            saveSensorData(sensor);
+            saveSensorData(sensor, now);
         }
     }
 
-    private void saveSensorData(Sensor sensor) {
+    private void saveSensorData(Sensor sensor, ZonedDateTime now) {
         SensorData sensorData = new SensorData();
         sensorData.setSensor(sensor);
         sensorData.setSensorDataValue(getRandomSensorValue(sensor.getSensorUnit()));
-        ZonedDateTime now = ZonedDateTime.now().withNano(0);
+
         sensorData.setSensorDataTime(now);
-        if(!sensorDataRepository.existsBySensorDataTime(now))
-            sensorDataRepository.save(sensorData);
+//        if(!sensorDataRepository.existsBySensorDataTimeAndSensor(now, sensor)){
+            sensorDataRepository.saveAndFlush(sensorData);
+//        }
+
+
     }
     
     private String getRandomSensorValue(String sensorUnit) {

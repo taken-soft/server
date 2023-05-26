@@ -1,10 +1,7 @@
 package org.takensoft.taken_soft.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -15,6 +12,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "sensor_data")
 @Getter@Setter
+@ToString
 public class SensorData {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

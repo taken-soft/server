@@ -3,8 +3,13 @@ package org.takensoft.taken_soft.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.takensoft.taken_soft.api.SensorController;
+import org.takensoft.taken_soft.domain.Sensor;
 import org.takensoft.taken_soft.domain.SensorData;
 import org.takensoft.taken_soft.dto.RealtimeSensorData;
 import org.takensoft.taken_soft.dto.RequestedSensorData;
@@ -49,28 +54,46 @@ public class SensorService {
             /** 6. 센서 value 할당 */
             // 그래프인 경우
             if(graph){
-
-                // TODO : 센서 value list가 5개
-                // 센서 데이터를 1분 단위로 뒤에서부터 5개를 가져옴
-                // 마지막 센서 데이터를 가져옴
-                SensorData lastSensorData = sensorRepository.findLastSensorDataBySensorId(sensorId);
-                // 마지막 센서 데이터의 시간을 가져옴
-                ZonedDateTime lastSensorDataTime = lastSensorData.getSensorDataTime();
-                // -1분, -2분, -3분, -4분의 시간 계산
-                List<ZonedDateTime> timeList = new ArrayList<>();
-                for (int i = 1; i <= 4; i++) {
-//                    timeList.add(lastSensorDataTime.minusMinutes(i));
-                    timeList.add(lastSensorDataTime.minusSeconds(i));
-                }
-
+                Pageable pageable = PageRequest.of(0, 5, Sort.by("sensorDataTime").descending());
+                List<Object[]> resultList = sensorRepository.findLastFiveSensorDataBySensorId(sensorId, pageable);
                 List<SensorData> sensorDataList = new ArrayList<>();
-                sensorDataList.add(lastSensorData);
-                // 시간에 해당하는 센서 데이터 조회하여 저장
-                for (ZonedDateTime time : timeList) {
-                    SensorData sensorData = sensorRepository.findBySensorIdAndSensorDataTime(sensorId, time);
+                List<Sensor> sensorList = new ArrayList<>();
+
+                for (Object[] result : resultList) {
+                    SensorData sensorData = (SensorData) result[0];
+                    Sensor sensor = (Sensor) result[1];
                     sensorDataList.add(sensorData);
+                    sensorList.add(sensor);
                 }
-                // 센서 Value를 각각 할당 realtimeSensorData의 sensorValues에 add가 5번 들어감
+
+
+
+//                // TODO : 센서 value list가 5개
+//                // 센서 데이터를 1분 단위로 뒤에서부터 5개를 가져옴
+//                // 마지막 센서 데이터를 가져옴
+//                SensorData lastSensorData = sensorRepository.findLastSensorDataBySensorId(sensorId);
+//                // 마지막 센서 데이터의 시간을 가져옴
+//                ZonedDateTime lastSensorDataTime = lastSensorData.getSensorDataTime();
+//                // -1분, -2분, -3분, -4분의 시간 계산
+//                List<ZonedDateTime> timeList = new ArrayList<>();
+//                for (int i = 1; i <= 4; i++) {
+////                    timeList.add(lastSensorDataTime.minusMinutes(i));
+//                    timeList.add(lastSensorDataTime.minusSeconds(i));
+//                }
+//
+//                List<SensorData> sensorDataList = new ArrayList<>();
+//
+//
+//                sensorDataList.add(lastSensorData);
+//                // 시간에 해당하는 센서 데이터 조회하여 저장
+//                for (ZonedDateTime time : timeList) {
+//                    SensorData sensorData = sensorRepository.findBySensorIdAndSensorDataTime(sensorId, time);
+//                    sensorDataList.add(sensorData);
+//                }
+//                log.info("타임 리스트 : {}",timeList);
+
+                log.info("센서 데이터 리스트 : {}",sensorDataList.toString());
+                // 센서 Value를 각각 할당 realtimeSensorData의 sens orValues에 add가 5번 들어감
                 for (SensorData sensorData : sensorDataList){
                     SensorValue sensorValue = new SensorValue();
                     sensorValue.setValue(sensorData.getSensorDataValue());
@@ -92,6 +115,7 @@ public class SensorService {
                 sensorValue.setTime(sensorData.getSensorDataTime());
                 realtimeSensorData.getSensorValues().add(sensorValue);
 
+                log.info("센서 데이터 리스트 : {}",sensorData.toString());
 
             }
 
