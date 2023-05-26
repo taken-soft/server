@@ -27,7 +27,7 @@ public class LayoutDto {
         return new LayoutDto( layout, layoutWidgetDtoList);
     }
     private void sortLayoutWidget(){
-        layoutWidgetDtoList.sort(Comparator.comparing(LayoutWidgetDto::getLayoutWidgetZPos).reversed());
+        layoutWidgetDtoList.sort(Comparator.comparing(LayoutWidgetDto::getLayoutWidgetZPos));
     }
 }
 

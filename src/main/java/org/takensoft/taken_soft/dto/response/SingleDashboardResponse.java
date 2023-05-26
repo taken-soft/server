@@ -41,6 +41,6 @@ public class SingleDashboardResponse {
     }
     
     private void sortLayoutDtoList() {
-        layoutDtoList.sort(Comparator.comparing(LayoutDto::getLayoutSequence).reversed());
+        layoutDtoList.sort(Comparator.comparing(LayoutDto::getLayoutSequence));
     }
 }

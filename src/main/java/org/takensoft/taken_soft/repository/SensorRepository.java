@@ -21,5 +21,6 @@ public interface SensorRepository extends JpaRepository<Sensor, Integer> {
 
     @Query("SELECT sensorData FROM SensorData sensorData JOIN FETCH sensorData.sensor sensor WHERE sensor.id = :sensorId AND sensorData.sensorDataTime = :time")
     SensorData findBySensorIdAndSensorDataTime(@Param("sensorId") Integer sensorId, @Param("time") ZonedDateTime time);
-
 }
+
+

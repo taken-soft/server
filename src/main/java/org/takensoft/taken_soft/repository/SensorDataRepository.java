@@ -8,10 +8,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.takensoft.taken_soft.domain.Sensor;
 import org.takensoft.taken_soft.domain.SensorData;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 @Transactional
 public interface SensorDataRepository extends JpaRepository<SensorData, Integer> {
+  boolean existsBySensorDataTime(ZonedDateTime now);
 }
+
+
+

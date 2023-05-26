@@ -31,7 +31,7 @@ public class DataModule {
     @Autowired
     private SensorRepository sensorRepository;
 
-    @Scheduled(fixedDelay = 100000)
+    @Scheduled(fixedRate = 1000)
     @Transactional
     public void addData() {
         try{
@@ -54,14 +54,15 @@ public class DataModule {
             saveSensorData(sensor);
         }
     }
-    
+
     private void saveSensorData(Sensor sensor) {
         SensorData sensorData = new SensorData();
         sensorData.setSensor(sensor);
         sensorData.setSensorDataValue(getRandomSensorValue(sensor.getSensorUnit()));
         ZonedDateTime now = ZonedDateTime.now().withNano(0);
         sensorData.setSensorDataTime(now);
-        sensorDataRepository.save(sensorData);
+        if(!sensorDataRepository.existsBySensorDataTime(now))
+            sensorDataRepository.save(sensorData);
     }
     
     private String getRandomSensorValue(String sensorUnit) {
