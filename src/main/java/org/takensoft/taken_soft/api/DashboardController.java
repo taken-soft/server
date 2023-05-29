@@ -90,4 +90,9 @@ public class DashboardController {
         return ResponseEntity.ok(dashboardList);
     }
 
+    @DeleteMapping("/layout/{board_id}")
+    public ResponseEntity<Void> deleteDashboardz(@PathVariable("board_id") Integer board_id) {
+        dashboardService.deleteLayoutsByLayoutId(board_id);
+        return ResponseEntity.ok().build();
+    }
 }

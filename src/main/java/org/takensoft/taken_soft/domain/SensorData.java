@@ -15,10 +15,11 @@ import java.util.UUID;
 @ToString
 public class SensorData {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "sensor_data_id", nullable = false)
-    private UUID id;
-    
+    private Integer id;
+
+
     @Column(name = "sensor_data_value", length = 40)
     private String sensorDataValue;
     

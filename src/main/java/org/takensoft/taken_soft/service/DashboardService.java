@@ -171,6 +171,10 @@ public class DashboardService {
         layoutRepository.deleteAllByDashboard(dashboard);
     }
 
+    public void deleteLayoutsByLayoutId(Integer layoutId) {
+        layoutRepository.deleteById(layoutId);
+    }
+
 
     public List<Dashboard> getAllDashboards()
     {

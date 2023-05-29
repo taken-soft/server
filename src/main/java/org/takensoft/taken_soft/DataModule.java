@@ -62,7 +62,7 @@ public class DataModule {
         sensorData.setSensorDataValue(getRandomSensorValue(sensor.getSensorUnit()));
 
         sensorData.setSensorDataTime(now);
-//        if(!sensorDataRepository.existsBySensorDataTimeAndSensor(now, sensor)){
+//        if(!sensorDataRepository. existsBySensorDataTimeAndSensor(now, sensor)){
             sensorDataRepository.saveAndFlush(sensorData);
 //        }
 
@@ -72,25 +72,25 @@ public class DataModule {
     private String getRandomSensorValue(String sensorUnit) {
         switch (sensorUnit) {
             case "rpm" -> {
-                return String.format("%.3f", Math.random() * 2000 + 5000);
+                return String.format("%.2f", Math.random() * 2000 + 5000);
             }
             case "%" -> {
-                return String.format("%.3f", Math.random() * 40 + 30);
+                return String.format("%.2f", Math.random() * 40 + 30);
             }
             case "ºC" -> {
-                return String.format("%.3f", Math.random() * 190 + 10);
+                return String.format("%.2f", Math.random() * 190 + 10);
             }
             case "mm" -> {
-                return String.format("%.3f", Math.random() * 70 + 30);
+                return String.format("%.2f", Math.random() * 70 + 30);
             }
             case "MPa", "Mpa" -> {
-                return String.format("%.3f", Math.random() * 20 + 1);
+                return String.format("%.2f", Math.random() * 20 + 1);
             }
             case "l/min" -> {
-                return String.format("%.3f", Math.random() * 9.5 + 0.5);
+                return String.format("%.2f", Math.random() * 9.5 + 0.5);
             }
             case "HZ" -> {
-                return String.format("%.3f", Math.random() * 100 + 1);
+                return String.format("%.2f", Math.random() * 100 + 1);
             }
             case "on/off" -> {
                 Random random = new Random();

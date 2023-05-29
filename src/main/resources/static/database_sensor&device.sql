@@ -64,5 +64,5 @@ INSERT INTO widget (widget_id, widget_type) VALUES (3, 'line graph');
 INSERT INTO widget (widget_id, widget_type) VALUES (4, 'bar graph');
 INSERT INTO widget (widget_id, widget_type) VALUES (5, 'rectangle');
 INSERT INTO widget (widget_id, widget_type) VALUES (6, 'circle');
-
+INSERT INTO widget (widget_id, widget_type) VALUES (7, 'circle graph');
 
