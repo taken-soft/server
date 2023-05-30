@@ -78,13 +78,13 @@ public class DataModule {
                 return String.format("%.2f", Math.random() * 40 + 30);
             }
             case "ºC" -> {
-                return String.format("%.2f", Math.random() * 190 + 10);
+                return String.format("%.2f", Math.random() * 60 + 40);
             }
             case "mm" -> {
                 return String.format("%.2f", Math.random() * 70 + 30);
             }
             case "MPa", "Mpa" -> {
-                return String.format("%.2f", Math.random() * 20 + 1);
+                return String.format("%.2f", Math.random() * 899 + 100);
             }
             case "l/min" -> {
                 return String.format("%.2f", Math.random() * 9.5 + 0.5);
